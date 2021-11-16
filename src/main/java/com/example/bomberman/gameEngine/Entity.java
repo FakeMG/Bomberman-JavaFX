@@ -1,24 +1,36 @@
 package com.example.bomberman.gameEngine;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
   private Point2D position;
   private Image texture;
-  private Rectangle2D hitBox;
-
-  //TODO: constructor
+  private Rectangle hitBox;
+  private float rotation;
+  private final float SCALE = 1;
 
   public Entity(double x, double y, Image texture) {
     position = new Point2D(x, y);
     this.texture = texture;
-    this.hitBox = new Rectangle2D(x, y, texture.getWidth(), texture.getHeight());
+    this.hitBox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+  }
+
+  public Entity(Point2D position, Image texture) {
+    this.position = position;
+    this.texture = texture;
+    this.hitBox = new Rectangle(position.getX(), position.getY(), texture.getWidth(),
+            texture.getHeight());
   }
 
   public abstract void update();
+
+  public Point2D getCenter() {
+    Point2D pos = getPosition();
+    return new Point2D(pos.getX() + hitBox.getWidth() / 2, pos.getY() + hitBox.getHeight() / 2);
+  }
 
   public Point2D getPosition() {
     return position;
@@ -36,11 +48,23 @@ public abstract class Entity {
     this.texture = texture;
   }
 
-  public Rectangle2D getHitBox() {
+  public Rectangle getHitBox() {
     return hitBox;
   }
 
-  public void setHitBox(Rectangle2D hitBox) {
+  public void setHitBox(Rectangle hitBox) {
     this.hitBox = hitBox;
+  }
+
+  public float getRotation() {
+    return rotation;
+  }
+
+  public void setRotation(float rotation) {
+    this.rotation = rotation;
+  }
+
+  public float getScale() {
+    return SCALE;
   }
 }

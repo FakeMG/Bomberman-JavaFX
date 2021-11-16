@@ -7,12 +7,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public class Renderer {
 
   Canvas canvas;
   GraphicsContext context;
-  Image background;
+  Image background = new Image(Renderer.class.getResourceAsStream("space.png"));
   static List<Entity> entities = new ArrayList<>();
 
   public Renderer(Canvas canvas) {
@@ -40,13 +41,14 @@ public class Renderer {
     //TODO: clear, save, restore ?
 
     context.save();
+    context.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
 
     if (background != null) {
-      context.drawImage(background, 0, 0);
+      context.drawImage(background, 0, 0, background.getWidth(), background.getHeight());
     }
 
     for (Entity entity : entities) {
-//      transformContext(entity);
+      transformContext(entity);
       Point2D pos = entity.getPosition();
       context.drawImage(
               entity.getTexture(),
@@ -64,9 +66,14 @@ public class Renderer {
     context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
   }
 
-//  private void transformContext(Entity entity) {
-//    Point2D centre = entity.getCenter();
-//    Rotate r = new Rotate(entity.getRotation(), centre.getX(), centre.getY());
-//    context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-//  }
+  /**
+   * Rotate entity by its rotation value.
+   * @param entity an entity.
+   */
+  private void transformContext(Entity entity) {
+    //Set transform for GraphicsContext using entity's rotation value.
+    Point2D centre = entity.getCenter();
+    Rotate r = new Rotate(entity.getRotation(), centre.getX(), centre.getY());
+    context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+  }
 }
