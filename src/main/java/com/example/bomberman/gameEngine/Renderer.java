@@ -2,6 +2,7 @@ package com.example.bomberman.gameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +14,8 @@ public class Renderer {
 
   Canvas canvas;
   GraphicsContext context;
-  Image background = new Image(Renderer.class.getResourceAsStream("space.png"));
+  Image background = new Image(
+          Objects.requireNonNull(Renderer.class.getResourceAsStream("space.png")));
   static List<Entity> entities = new ArrayList<>();
 
   public Renderer(Canvas canvas) {

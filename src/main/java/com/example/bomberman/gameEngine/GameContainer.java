@@ -1,13 +1,12 @@
 package com.example.bomberman.gameEngine;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class GameContainer extends Application {
@@ -29,11 +28,15 @@ public class GameContainer extends Application {
     stage.setScene(theScene);
     root.getChildren().add(canvas);
 
+    Input.pollScene(theScene);
     //main game loop
     new AnimationTimer() {
       @Override
       public void handle(long currentNanoTime) {
         //TODO: main game loop
+        if(Input.isDown(KeyCode.W)) {
+          System.out.println(true);
+        }
         renderer.render();
       }
     }.start();
