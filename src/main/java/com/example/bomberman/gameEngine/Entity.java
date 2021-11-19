@@ -8,20 +8,20 @@ public abstract class Entity {
 
   private Point2D position;
   private Image texture;
-  private Rectangle hitBox;
+  private Rectangle collision;
   private float rotation;
   private final float SCALE = 1;
 
   public Entity(double x, double y, Image texture) {
     position = new Point2D(x, y);
     this.texture = texture;
-    this.hitBox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+    this.collision = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
   }
 
   public Entity(Point2D position, Image texture) {
     this.position = position;
     this.texture = texture;
-    this.hitBox = new Rectangle(position.getX(), position.getY(), texture.getWidth(),
+    this.collision = new Rectangle(position.getX(), position.getY(), texture.getWidth(),
             texture.getHeight());
   }
 
@@ -29,7 +29,7 @@ public abstract class Entity {
 
   public Point2D getCenter() {
     Point2D pos = getPosition();
-    return new Point2D(pos.getX() + hitBox.getWidth() / 2, pos.getY() + hitBox.getHeight() / 2);
+    return new Point2D(pos.getX() + collision.getWidth() / 2, pos.getY() + collision.getHeight() / 2);
   }
 
   public Point2D getPosition() {
@@ -48,12 +48,12 @@ public abstract class Entity {
     this.texture = texture;
   }
 
-  public Rectangle getHitBox() {
-    return hitBox;
+  public Rectangle getCollision() {
+    return collision;
   }
 
-  public void setHitBox(Rectangle hitBox) {
-    this.hitBox = hitBox;
+  public void setCollision(Rectangle collision) {
+    this.collision = collision;
   }
 
   public float getRotation() {

@@ -56,8 +56,8 @@ public class Renderer {
               entity.getTexture(),
               pos.getX(),
               pos.getY(),
-              entity.getHitBox().getWidth(),
-              entity.getHitBox().getHeight()
+              entity.getCollision().getWidth(),
+              entity.getCollision().getHeight()
       );
     }
     context.restore();
