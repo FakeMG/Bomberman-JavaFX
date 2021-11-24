@@ -1,5 +1,6 @@
 package com.example.bomberman.gameEngine;
 
+import com.example.bomberman.game.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +8,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
 public class Renderer {
@@ -39,14 +39,23 @@ public class Renderer {
     this.background = background;
   }
 
-  public void render() {
+  /**
+   * render all entities.
+   */
+  public void render(List<Tile> tiles) {
     //TODO: clear, save, restore ?
 
     context.save();
-    context.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
 
     if (background != null) {
-      context.drawImage(background, 0, 0, background.getWidth(), background.getHeight());
+      context.drawImage(background, 32, 32, background.getWidth(), background.getHeight());
+    }
+
+    for (Tile tile : tiles) {
+      Point2D pos = tile.getPosition();
+      context.drawImage(tile.getTexture(), pos.getX(), pos.getY(),
+              tile.getCollision().getWidth(),
+              tile.getCollision().getHeight());
     }
 
     for (Entity entity : entities) {
@@ -63,13 +72,31 @@ public class Renderer {
     context.restore();
   }
 
-  public void prepare() {
-    context.setFill(new Color(0.68, 0.68, 0.68, 1.0));
-    context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+  /**
+   * render image.
+   *
+   * @param image image.
+   * @param x     x pos.
+   * @param y     y pos.
+   */
+  public void render(Image image, double x, double y) {
+    try {
+      context.drawImage(image, x, y);
+    } catch (Exception e) {
+      System.out.println("Can not draw image!");
+      e.printStackTrace();
+    }
+  }
+
+  public void clear() {
+//    context.setFill(new Color(0.68, 0.68, 0.68, 1.0));
+//    context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
   }
 
   /**
    * Rotate entity by its rotation value.
+   *
    * @param entity an entity.
    */
   private void transformContext(Entity entity) {

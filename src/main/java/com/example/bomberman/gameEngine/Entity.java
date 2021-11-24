@@ -10,7 +10,7 @@ public abstract class Entity {
   private Image texture;
   private Rectangle collision;
   private float rotation;
-  private final float SCALE = 1;
+  private float scale = 1;
 
   public Entity(double x, double y, Image texture) {
     position = new Point2D(x, y);
@@ -65,6 +65,10 @@ public abstract class Entity {
   }
 
   public float getScale() {
-    return SCALE;
+    return scale;
+  }
+
+  public void setScale(float scale) {
+    this.scale = scale;
   }
 }

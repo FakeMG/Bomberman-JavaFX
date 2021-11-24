@@ -1,12 +1,12 @@
 package com.example.bomberman.gameEngine;
 
+import com.example.bomberman.game.Map;
 import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class GameContainer extends Application {
@@ -29,15 +29,17 @@ public class GameContainer extends Application {
     root.getChildren().add(canvas);
 
     Input.pollScene(theScene);
+
+    Map mm = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
+    mm.readMap();
+
     //main game loop
     new AnimationTimer() {
       @Override
       public void handle(long currentNanoTime) {
         //TODO: main game loop
-        if(Input.isDown(KeyCode.W)) {
-          System.out.println(true);
-        }
-        renderer.render();
+        renderer.clear();
+        renderer.render(mm.getTiles());
       }
     }.start();
 

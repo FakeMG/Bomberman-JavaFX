@@ -1,13 +1,14 @@
 package com.example.bomberman.gameEngine;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
- * Tất cả sprite (hình ảnh game) được lưu trữ vào một ảnh duy nhất.
- * Class này lưu dữ liệu của SpriteSheet vào trong "_pixels".
+ * Tất cả sprite (hình ảnh game) được lưu trữ vào một ảnh duy nhất. Class này lưu dữ liệu của
+ * SpriteSheet vào trong "_pixels".
  */
 public class SpriteSheet {
 
@@ -16,7 +17,8 @@ public class SpriteSheet {
   public int[] _pixels;
   public BufferedImage image;
 
-  public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
+  public static SpriteSheet tiles = new SpriteSheet(
+          "src/main/resources/com/example/bomberman/gameEngine/textures/classic.png", 256);
 
   public SpriteSheet(String path, int size) {
     _path = path;
@@ -27,13 +29,13 @@ public class SpriteSheet {
 
   private void load() {
     try {
-      URL a = SpriteSheet.class.getResource(_path);
-      image = ImageIO.read(a);
+      File f = new File(_path);
+      image = ImageIO.read(f);
       int w = image.getWidth();
       int h = image.getHeight();
       image.getRGB(0, 0, w, h, _pixels, 0, w);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, "FILE NOT FOUND!", e);
       System.exit(0);
     }
   }
