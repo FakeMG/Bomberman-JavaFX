@@ -1,6 +1,6 @@
 package com.example.bomberman.gameEngine;
 
-import com.example.bomberman.game.Map;
+import com.example.bomberman.game.GameManager;
 import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -13,40 +13,54 @@ public class GameContainer extends Application {
 
   private Renderer renderer;
   private Canvas canvas;
+  private AbstractGame game;
 
+  /**
+   * Bắt buộc phải để public cho constructor ko có tham số
+   */
   public GameContainer() {
     canvas = new Canvas(1280, 720);
     renderer = new Renderer(canvas);
+    game = new GameManager();
   }
 
   @Override
   public void start(Stage stage) throws IOException {
-    Group root = new Group();
-    Scene theScene = new Scene(root);
+    try {
+      Group root = new Group();
+      Scene theScene = new Scene(root);
+      Input.pollScene(theScene);
 
-    stage.setTitle("Bomberman");
-    stage.setScene(theScene);
-    root.getChildren().add(canvas);
+      stage.setTitle("Bomberman");
+      stage.setScene(theScene);
+      root.getChildren().add(canvas);
 
-    Input.pollScene(theScene);
+      Input.pollScene(theScene);
 
-    Map mm = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
-    mm.readMap();
+      //main game loop
+      new AnimationTimer() {
+        @Override
+        public void handle(long currentNanoTime) {
+          try {
+            //TODO: main game loop
+            game.update(currentNanoTime);
+            Input.update();
+            renderer.clear();
+            renderer.render();
+          } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.exit(-1);
+          }
+        }
+      }.start();
 
-    //main game loop
-    new AnimationTimer() {
-      @Override
-      public void handle(long currentNanoTime) {
-        //TODO: main game loop
-        renderer.clear();
-        renderer.render(mm.getTiles());
-      }
-    }.start();
-
-    stage.show();
+      stage.show();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
   }
 
-  public static void main(String[] args) {
+  public void go() {
     launch();
   }
 }

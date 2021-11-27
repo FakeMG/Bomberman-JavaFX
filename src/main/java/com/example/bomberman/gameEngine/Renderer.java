@@ -1,6 +1,5 @@
 package com.example.bomberman.gameEngine;
 
-import com.example.bomberman.game.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +26,10 @@ public class Renderer {
     entities.add(entity);
   }
 
+  public static void addEntity(List<? extends Entity> newEntities) {
+    entities.addAll(newEntities);
+  }
+
   public void removeEntity(Entity entity) {
     entities.remove(entity);
   }
@@ -42,7 +45,7 @@ public class Renderer {
   /**
    * render all entities.
    */
-  public void render(List<Tile> tiles) {
+  public void render() {
     //TODO: clear, save, restore ?
 
     context.save();
@@ -51,18 +54,15 @@ public class Renderer {
       context.drawImage(background, 32, 32, background.getWidth(), background.getHeight());
     }
 
-    for (Tile tile : tiles) {
-      Point2D pos = tile.getPosition();
-      context.drawImage(tile.getTexture(), pos.getX(), pos.getY(),
-              tile.getCollision().getWidth(),
-              tile.getCollision().getHeight());
-    }
-
     for (Entity entity : entities) {
       transformContext(entity);
       Point2D pos = entity.getPosition();
+      Image entityTexture = entity.getTexture();
+      if (entity.getActiveAnimation() != null) {
+        entityTexture = entity.getActiveAnimation().getCurrentFrame();
+      }
       context.drawImage(
-              entity.getTexture(),
+              entityTexture,
               pos.getX(),
               pos.getY(),
               entity.getCollision().getWidth(),
@@ -95,7 +95,7 @@ public class Renderer {
   }
 
   /**
-   * Rotate entity by its rotation value.
+   * Rotate entity by its rotational value.
    *
    * @param entity an entity.
    */

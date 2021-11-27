@@ -1,6 +1,8 @@
 package com.example.bomberman.game;
 
+import com.example.bomberman.gameEngine.Renderer;
 import com.example.bomberman.gameEngine.Sprite;
+import com.example.bomberman.gameEngine.Tile;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,24 +56,21 @@ public class Map {
           Tile tile = null;
 
           if (tileType == '#') {
-            tile = new Tile(x, y, Sprite.wall.getFxImage(), tileType);
+            tile = new Tile(x, y, Sprite.wall.getTexture(), tileType);
+            tiles.add(tile);
           } else if (tileType == '*') {
             //bên dưới brick sẽ là grass
-            tile = new Tile(x, y, Sprite.brick.getFxImage(), tileType);
-            Tile tile2 = new Tile(x, y, Sprite.grass.getFxImage(), tileType);
-            //thêm grass vào array luôn để khi render ra thì grass sẽ ở dưới
-            tiles.add(tile2);
+            Brick brick = new Brick(x, y, Sprite.brick.getTexture());
+            tiles.add(brick);
           } else if (tileType == 'x') {
-            //bên dưới portal sẽ là grass
-            tile = new Tile(x, y, Sprite.portal.getFxImage(), tileType);
-            Tile tile2 = new Tile(x, y, Sprite.grass.getFxImage(), tileType);
-            //thêm grass vào array luôn để khi render ra thì grass sẽ ở dưới
-            tiles.add(tile2);
+            //poral giấu sau brick và bên trên grass
+            Brick brick = new Brick(x, y, Sprite.brick.getTexture(), 'x');
+            tiles.add(brick);
           } else {
-            tile = new Tile(x, y, Sprite.grass.getFxImage(), tileType);
+            tile = new Tile(x, y, Sprite.grass.getTexture(), tileType);
+            tiles.add(tile);
           }
 
-          tiles.add(tile);
 
           //Dịch sang x của tile tiếp theo
           x += Sprite.DEFAULT_SIZE * Sprite.SCALED;
@@ -94,6 +93,7 @@ public class Map {
       Logger.getLogger(Map.class.getName()).log(Level.SEVERE, "ERROR WHILE READING MAP!", ex);
     } finally {
       try {
+        Renderer.addEntity(tiles);
         bufferedReader.close();
         fileInputStream.close();
       } catch (NullPointerException | IOException ex) {
@@ -136,10 +136,5 @@ public class Map {
 
   public List<Tile> getTiles() {
     return tiles;
-  }
-
-  public static void main(String[] args) {
-    Map mm = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
-    mm.readMap();
   }
 }

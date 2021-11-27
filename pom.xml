@@ -60,7 +60,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.example.bomberman/com.example.bomberman.gameEngine.GameContainer</mainClass>
+              <mainClass>com.example.bomberman/com.example.bomberman.game.GameManager</mainClass>
             </configuration>
           </execution>
         </executions>

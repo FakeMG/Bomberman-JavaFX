@@ -1,10 +1,12 @@
-package com.example.bomberman.game;
+package com.example.bomberman.gameEngine;
 
-import com.example.bomberman.gameEngine.Entity;
+import com.example.bomberman.game.Brick;
+import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 public class Tile extends Entity {
+
   private char tileType;
 
   public Tile(double x, double y, Image texture, char tileType) {

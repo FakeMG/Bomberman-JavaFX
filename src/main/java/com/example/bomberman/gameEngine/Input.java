@@ -9,12 +9,21 @@ public class Input {
 
   private static Scene scene;
   private static final Set<KeyCode> keysCurrentlyDown = new HashSet<>();
+  private static final Set<KeyCode> keysLast = new HashSet<>(); //trạng thái ngay trước đó của các nút
 
   private Input() {
   }
 
   public static Input getInstance() {
     return new Input();
+  }
+
+  /**
+   * hàm update này phải ở dưới hàm update của game.
+   */
+  public static void update() {
+    keysLast.clear();
+    keysLast.addAll(keysCurrentlyDown);
   }
 
   public static void pollScene(Scene scene) {
@@ -45,7 +54,11 @@ public class Input {
   }
 
   public static boolean isDown(KeyCode keyCode) {
-    return keysCurrentlyDown.contains(keyCode);
+    return !keysLast.contains(keyCode) && keysCurrentlyDown.contains(keyCode);
+  }
+
+  public static boolean isUp(KeyCode keyCode) {
+    return keysLast.contains(keyCode) && !keysCurrentlyDown.contains(keyCode);
   }
 
   @Override
@@ -55,5 +68,9 @@ public class Input {
       keysDown.append(code.getName()).append(" ");
     }
     return keysDown.toString();
+  }
+
+  public static void main(String[] args) {
+    System.out.println(KeyCode.A.getCode());
   }
 }
