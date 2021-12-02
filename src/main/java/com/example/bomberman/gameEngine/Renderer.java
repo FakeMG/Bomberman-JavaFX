@@ -15,7 +15,7 @@ public class Renderer {
   GraphicsContext context;
   Image background = new Image(
           Objects.requireNonNull(Renderer.class.getResourceAsStream("space.png")));
-  static List<Entity> entities = new ArrayList<>();
+  public static List<Entity> entities = new ArrayList<>();
 
   public Renderer(Canvas canvas) {
     this.canvas = canvas;
@@ -57,7 +57,7 @@ public class Renderer {
     for (Entity entity : entities) {
       transformContext(entity);
       Point2D pos = entity.getPosition();
-      Image entityTexture = entity.getTexture();
+      Image entityTexture = entity.sprite.getTexture();
       if (entity.getActiveAnimation() != null) {
         entityTexture = entity.getActiveAnimation().getCurrentFrame();
       }
@@ -65,8 +65,8 @@ public class Renderer {
               entityTexture,
               pos.getX(),
               pos.getY(),
-              entity.getCollision().getWidth(),
-              entity.getCollision().getHeight()
+              entity.sprite.getTexture().getWidth(),
+              entity.sprite.getTexture().getHeight()
       );
     }
     context.restore();

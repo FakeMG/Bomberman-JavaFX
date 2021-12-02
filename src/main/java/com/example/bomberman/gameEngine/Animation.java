@@ -7,28 +7,47 @@ public class Animation {
 
   private int totalFrames;
   private ArrayList<Sprite> sprites;
+  private boolean isLooping = false;
   private boolean isPaused = true;
   private int frameCounter;
-  private int delayPerFrame = 1;
+  private double delayPerFrame = 0.1; //seconds
+  private double timeCounter;
 
-  public Animation() {
-    sprites = new ArrayList<>();
-  }
-
-  public Animation(ArrayList<Sprite> sprites, int totalFrames, int delayPerFrame) {
+  public Animation(ArrayList<Sprite> sprites, int totalFrames, double delayPerFrame,
+          boolean isLooping) {
     this.sprites = sprites;
     this.totalFrames = totalFrames;
     this.delayPerFrame = delayPerFrame;
+    this.isLooping = isLooping;
   }
 
-  public void update() {
+  public void run(double deltaTime) {
     if (!isPaused) {
-      frameCounter++;
-      if (frameCounter / delayPerFrame >= totalFrames - 1) {
-        frameCounter = 0;
+      if (isLooping) {
+        timeCounter += deltaTime;
+        loopTheAnimation();
+      } else {
+        runTheAnimationOnce();
       }
     } else {
-      frameCounter = 1;
+      frameCounter = 0;
+    }
+  }
+
+  private void loopTheAnimation() {
+    if (timeCounter >= delayPerFrame) {
+      frameCounter++;
+      timeCounter = 0;
+    }
+    //ko dùng else if ở đoạn này được vì frameCounter sẽ vượt quá range của sprites
+    if (frameCounter >= totalFrames) {
+      frameCounter = 0;
+    }
+  }
+
+  private void runTheAnimationOnce() {
+    if (frameCounter < totalFrames - 1) {
+      frameCounter++;
     }
   }
 
@@ -41,8 +60,8 @@ public class Animation {
   }
 
   public Image getCurrentFrame() {
-    if (frameCounter / delayPerFrame < sprites.size()) {
-      return sprites.get(frameCounter / delayPerFrame).getTexture();
+    if (frameCounter < sprites.size()) {
+      return sprites.get(frameCounter).getTexture();
     }
     return null;
   }
@@ -55,11 +74,11 @@ public class Animation {
     this.frameCounter = frameCounter;
   }
 
-  public int getDelayPerFrame() {
+  public double getDelayPerFrame() {
     return delayPerFrame;
   }
 
-  public void setDelayPerFrame(int delayPerFrame) {
+  public void setDelayPerFrame(double delayPerFrame) {
     this.delayPerFrame = delayPerFrame;
   }
 
@@ -69,5 +88,17 @@ public class Animation {
 
   public void setPaused(boolean paused) {
     isPaused = paused;
+  }
+
+  public boolean isLooping() {
+    return isLooping;
+  }
+
+  public void setLooping(boolean looping) {
+    this.isLooping = looping;
+  }
+
+  public boolean isEnded() {
+    return !isLooping && frameCounter == totalFrames - 1;
   }
 }

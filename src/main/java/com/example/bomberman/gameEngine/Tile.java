@@ -1,21 +1,18 @@
 package com.example.bomberman.gameEngine;
 
-import com.example.bomberman.game.Brick;
-import java.util.ArrayList;
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 
 public class Tile extends Entity {
 
   private char tileType;
 
-  public Tile(double x, double y, Image texture, char tileType) {
-    super(x, y, texture);
+  public Tile(double x, double y, Sprite sprite, char tileType) {
+    super(x, y, sprite);
     this.tileType = tileType;
   }
 
-  public Tile(Point2D position, Image texture, char tileType) {
-    super(position, texture);
+  public Tile(Point2D position, Sprite sprite, char tileType) {
+    super(position, sprite);
     this.tileType = tileType;
   }
 
@@ -28,7 +25,7 @@ public class Tile extends Entity {
   }
 
   @Override
-  public void update() {
+  public void update(double deltaTime) {
 
   }
 }

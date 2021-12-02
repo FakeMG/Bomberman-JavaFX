@@ -1,41 +1,40 @@
 package com.example.bomberman.gameEngine;
 
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
   protected Animation activeAnimation = null;
   protected Point2D position;
-  protected Image texture;
+  protected Sprite sprite;
   protected Rectangle collision;
   protected float rotation;
   protected float scale = 1;
 
-  public Entity(double x, double y, Image texture) {
+  public Entity(double x, double y, Sprite sprite) {
     position = new Point2D(x, y);
-    this.texture = texture;
-    if (texture != null) {
-      this.collision = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+    this.sprite = sprite;
+    if (sprite != null) {
+      this.collision = new Rectangle(x, y, sprite.getRealWidth(), sprite.getRealHeight());
     }
   }
 
-  public Entity(Point2D position, Image texture) {
+  public Entity(Point2D position, Sprite sprite) {
     this.position = position;
-    this.texture = texture;
-    if (texture != null) {
-      this.collision = new Rectangle(position.getX(), position.getY(), texture.getWidth(),
-              texture.getHeight());
+    this.sprite = sprite;
+    if (sprite != null) {
+      this.collision = new Rectangle(position.getX(), position.getY(), sprite.getRealWidth(),
+              sprite.getRealHeight());
     }
   }
 
-  public abstract void update();
+  public abstract void update(double deltaTime);
 
   public Point2D getCenter() {
     Point2D pos = getPosition();
-    return new Point2D(pos.getX() + collision.getWidth() / 2,
-            pos.getY() + collision.getHeight() / 2);
+    return new Point2D(pos.getX() + sprite.getRealWidth() / 2,
+            pos.getY() + sprite.getRealHeight() / 2);
   }
 
   public Point2D getPosition() {
@@ -44,14 +43,6 @@ public abstract class Entity {
 
   public void setPosition(Point2D position) {
     this.position = position;
-  }
-
-  public Image getTexture() {
-    return texture;
-  }
-
-  public void setTexture(Image texture) {
-    this.texture = texture;
   }
 
   public Rectangle getCollision() {
@@ -84,5 +75,9 @@ public abstract class Entity {
 
   public void setActiveAnimation(Animation activeAnimation) {
     this.activeAnimation = activeAnimation;
+  }
+
+  public Sprite getSprite() {
+    return sprite;
   }
 }

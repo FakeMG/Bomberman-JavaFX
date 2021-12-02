@@ -39,11 +39,19 @@ public class GameContainer extends Application {
 
       //main game loop
       new AnimationTimer() {
+        //Timer
+        double startTime = System.nanoTime() / 1000000000.0;
+        double passedTime = 0;
+
         @Override
         public void handle(long currentNanoTime) {
           try {
+            //calculate time
+            passedTime = currentNanoTime / 1000000000.0 - startTime;
+            startTime = currentNanoTime / 1000000000.0;
+
             //TODO: main game loop
-            game.update(currentNanoTime);
+            game.update(passedTime);
             Input.update();
             renderer.clear();
             renderer.render();
@@ -60,7 +68,7 @@ public class GameContainer extends Application {
     }
   }
 
-  public void go() {
+  public static void go() {
     launch();
   }
 }

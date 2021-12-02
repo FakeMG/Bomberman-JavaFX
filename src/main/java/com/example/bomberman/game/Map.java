@@ -1,5 +1,6 @@
 package com.example.bomberman.game;
 
+import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Renderer;
 import com.example.bomberman.gameEngine.Sprite;
 import com.example.bomberman.gameEngine.Tile;
@@ -23,7 +24,8 @@ public class Map {
   private int numOfColumns;
   private int numOfRows;
   private final int TOTAL_TILES;
-  private List<Tile> tiles = new ArrayList<>();
+  private static List<Tile> tiles = new ArrayList<>();
+  private static List<Entity> mobs = new ArrayList<>();
   private FileInputStream fileInputStream = null;
   private BufferedReader bufferedReader = null;
 
@@ -47,7 +49,8 @@ public class Map {
       int x = 0, y = 0;
 
       //Cần cộng thêm numOfRows * 2 vì cuối mỗi dòng sẽ có 2 kí tự \r và \n
-      //Cần - 2 vì kí tự thứ nhất đã đc đọc bên trên; chỉ cần đọc đến kí tự \r ở dòng cuối của map
+      //Cần - 2 vì kí tự thứ nhất đã đc đọc bên trên
+      //Chỉ cần đọc đến kí tự \r ở dòng cuối của map
       for (int i = 1; i <= TOTAL_TILES + numOfRows * 2 - 2; ++i) {
         tileType = (char) data;
 
@@ -55,22 +58,49 @@ public class Map {
         if (tileType != '\n' && tileType != '\r') {
           Tile tile = null;
 
-          if (tileType == '#') {
-            tile = new Tile(x, y, Sprite.wall.getTexture(), tileType);
-            tiles.add(tile);
-          } else if (tileType == '*') {
-            //bên dưới brick sẽ là grass
-            Brick brick = new Brick(x, y, Sprite.brick.getTexture());
-            tiles.add(brick);
-          } else if (tileType == 'x') {
-            //poral giấu sau brick và bên trên grass
-            Brick brick = new Brick(x, y, Sprite.brick.getTexture(), 'x');
-            tiles.add(brick);
-          } else {
-            tile = new Tile(x, y, Sprite.grass.getTexture(), tileType);
-            tiles.add(tile);
+          switch (tileType) {
+            case '#' -> {
+              tile = new Tile(x, y, Sprite.wall, tileType);
+              tiles.add(tile);
+            }
+            case '*' -> {
+              //bên dưới brick sẽ là grass
+              Brick brick = new Brick(x, y, Sprite.brick);
+              tiles.add(brick);
+            }
+            case 'x' -> {
+              //poral giấu sau brick và bên trên grass
+              Brick brick2 = new Brick(x, y, Sprite.brick, 'x');
+              tiles.add(brick2);
+            }
+            case 'p' -> {
+              Bomberman player = new Bomberman(x, y, Sprite.bomber_down.get(0));
+              mobs.add(player);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+              tiles.add(tile);
+            }
+            case '1' -> {
+              //TODO:
+              System.out.println("create balloon " + x + " " + y);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+              tiles.add(tile);
+            }
+            case '2' -> {
+              //TODO:
+              System.out.println("create oneal " + x + " " + y);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+              tiles.add(tile);
+            }
+            case 'b', 'f', 's' -> {
+              //các item được giấu dưới brick
+              Brick brick3 = new Brick(x, y, Sprite.brick, tileType);
+              tiles.add(brick3);
+            }
+            case ' ' -> {
+              tile = new Tile(x, y, Sprite.grass, ' ');
+              tiles.add(tile);
+            }
           }
-
 
           //Dịch sang x của tile tiếp theo
           x += Sprite.DEFAULT_SIZE * Sprite.SCALED;
@@ -93,7 +123,13 @@ public class Map {
       Logger.getLogger(Map.class.getName()).log(Level.SEVERE, "ERROR WHILE READING MAP!", ex);
     } finally {
       try {
+        //CHÚ Ý THỨ TỰ ADD
+        //add trước thì sẽ render trước
+        //render sau sẽ đè lên render trước
         Renderer.addEntity(tiles);
+        Renderer.addEntity(mobs);
+        System.out.println("mobs: " + mobs.size());
+        System.out.println("tiles: " + tiles.size());
         bufferedReader.close();
         fileInputStream.close();
       } catch (NullPointerException | IOException ex) {
@@ -134,7 +170,11 @@ public class Map {
     return TOTAL_TILES;
   }
 
-  public List<Tile> getTiles() {
+  public static List<Tile> getTiles() {
     return tiles;
+  }
+
+  public static List<Entity> getMobs() {
+    return mobs;
   }
 }

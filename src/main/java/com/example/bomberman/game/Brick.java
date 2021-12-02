@@ -1,6 +1,7 @@
 package com.example.bomberman.game;
 
 import com.example.bomberman.gameEngine.Physic;
+import com.example.bomberman.gameEngine.Sprite;
 import com.example.bomberman.gameEngine.Tile;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +20,17 @@ public class Brick extends Tile {
   s - Speed Item
    */
 
-  public Brick(double x, double y, Image texture) {
-    super(x, y, texture, '*');
+  public Brick(double x, double y, Sprite sprite) {
+    super(x, y, sprite, '*');
   }
 
-  public Brick(double x, double y, Image texture, char item) {
-    super(x, y, texture, '*');
+  public Brick(double x, double y, Sprite sprite, char item) {
+    super(x, y, sprite, '*');
     this.item = item;
   }
 
-  public Brick(Point2D position, Image texture, char item) {
-    super(position, texture, '*');
+  public Brick(Point2D position, Sprite sprite, char item) {
+    super(position, sprite, '*');
     this.item = item;
   }
 
@@ -76,7 +77,7 @@ public class Brick extends Tile {
   }
 
   @Override
-  public void update() {
+  public void update(double deltaTime) {
 
   }
 

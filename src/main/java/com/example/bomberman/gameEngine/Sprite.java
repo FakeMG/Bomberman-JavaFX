@@ -20,8 +20,8 @@ public class Sprite {
   public final int SIZE;
   private int _x, _y;
   public int[] _pixels;
-  protected int _realWidth;
-  protected int _realHeight;
+  protected double _realWidth;
+  protected double _realHeight;
   private SpriteSheet _sheet;
 
   /**
@@ -60,39 +60,39 @@ public class Sprite {
   /* ----------------------------------------------------------- **/
   public static ArrayList<Sprite> bomber_up = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.tiles, 12, 16)
+                  new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.tiles, 12, 15.5)
           )
   );
   public static ArrayList<Sprite> bomber_down = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 12, 16)
+                  new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 12, 15.5)
           )
   );
   public static ArrayList<Sprite> bomber_left = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 12, 16)
+                  new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 12, 15.5)
           )
   );
 
   public static ArrayList<Sprite> bomber_right = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 12, 16),
-                  new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 12, 16)
+                  new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 12, 15.5),
+                  new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 12, 15.5)
           )
   );
 
   public static ArrayList<Sprite> bomber_dead = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 16),
+                  new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 15.5),
                   new Sprite(DEFAULT_SIZE, 5, 2, SpriteSheet.tiles, 13, 15),
-                  new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, 16)
+                  new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, 15.5)
           )
   );
   /* ----------------------------------------------------------- **/
@@ -300,7 +300,7 @@ public class Sprite {
   public static Sprite powerUp_flame_pass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16,
           16);
 
-  public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
+  public Sprite(int size, int x, int y, SpriteSheet sheet, double rw, double rh) {
     SIZE = size;
     _pixels = new int[SIZE * SIZE];
     _x = x * SIZE;
@@ -415,5 +415,13 @@ public class Sprite {
     }
 
     return output;
+  }
+
+  public double getRealWidth() {
+    return _realWidth * SCALED;
+  }
+
+  public double getRealHeight() {
+    return _realHeight * SCALED;
   }
 }
