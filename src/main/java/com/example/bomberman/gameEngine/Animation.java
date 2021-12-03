@@ -1,93 +1,65 @@
 package com.example.bomberman.gameEngine;
 
 import java.util.ArrayList;
-import javafx.scene.image.Image;
+import java.util.Arrays;
 
 public class Animation {
+
+  public static final float PLAYER_DELAY = 0.1f; //seconds
+  public static final float PLAYER_DEAD_DELAY = 0.3f; //seconds
+  public static final float BOMB_DELAY = 0.3f; //seconds
+  public static final float FLAME_DELAY = 0.1f; //seconds
+
+  public static Animation bomberUp = new Animation(Sprite.bomber_up, PLAYER_DELAY, true);
+  public static Animation bomberDown = new Animation(Sprite.bomber_down, PLAYER_DELAY, true);
+  public static Animation bomberRight = new Animation(Sprite.bomber_right, PLAYER_DELAY, true);
+  public static Animation bomberLeft = new Animation(Sprite.bomber_left, PLAYER_DELAY, true);
+  public static Animation bomberDead = new Animation(Sprite.bomber_dead, PLAYER_DEAD_DELAY, false);
+
+  public static Animation bomb = new Animation(Sprite.bomb, BOMB_DELAY, true);
+
+  public static Animation explosion_centre = new Animation(Sprite.explosion_centre, FLAME_DELAY,
+          false);
+  public static Animation explosion_vertical = new Animation(Sprite.explosion_vertical,
+          FLAME_DELAY, false);
+  public static Animation explosion_horizontal = new Animation(Sprite.explosion_horizontal,
+          FLAME_DELAY, false);
+  public static Animation explosion_left_end = new Animation(Sprite.explosion_left_end,
+          FLAME_DELAY, false);
+  public static Animation explosion_right_end = new Animation(Sprite.explosion_right_end,
+          FLAME_DELAY, false);
+  public static Animation explosion_up_end = new Animation(Sprite.explosion_up_end,
+          FLAME_DELAY, false);
+  public static Animation explosion_down_end = new Animation(Sprite.explosion_down_end, FLAME_DELAY,
+          false);
 
   private int totalFrames;
   private ArrayList<Sprite> sprites;
   private boolean isLooping = false;
-  private boolean isPaused = true;
-  private int frameCounter;
-  private double delayPerFrame = 0.1; //seconds
-  private double timeCounter;
+  private float[] delayPerFrame;
 
-  public Animation(ArrayList<Sprite> sprites, int totalFrames, double delayPerFrame,
-          boolean isLooping) {
+  public Animation(ArrayList<Sprite> sprites, float delayValue, boolean isLooping) {
     this.sprites = sprites;
-    this.totalFrames = totalFrames;
-    this.delayPerFrame = delayPerFrame;
+    this.totalFrames = sprites.size();
+    this.delayPerFrame = new float[sprites.size()];
+    Arrays.fill(this.delayPerFrame, delayValue);
     this.isLooping = isLooping;
-  }
-
-  public void run(double deltaTime) {
-    if (!isPaused) {
-      if (isLooping) {
-        timeCounter += deltaTime;
-        loopTheAnimation();
-      } else {
-        runTheAnimationOnce();
-      }
-    } else {
-      frameCounter = 0;
-    }
-  }
-
-  private void loopTheAnimation() {
-    if (timeCounter >= delayPerFrame) {
-      frameCounter++;
-      timeCounter = 0;
-    }
-    //ko dùng else if ở đoạn này được vì frameCounter sẽ vượt quá range của sprites
-    if (frameCounter >= totalFrames) {
-      frameCounter = 0;
-    }
-  }
-
-  private void runTheAnimationOnce() {
-    if (frameCounter < totalFrames - 1) {
-      frameCounter++;
-    }
   }
 
   public ArrayList<Sprite> getSprites() {
     return sprites;
   }
 
-  public void setSprites(ArrayList<Sprite> sprites) {
-    this.sprites = sprites;
+  public int getTotalFrames() {
+    return totalFrames;
   }
 
-  public Image getCurrentFrame() {
-    if (frameCounter < sprites.size()) {
-      return sprites.get(frameCounter).getTexture();
-    }
-    return null;
+  public float getDelayAt(int index) {
+    return delayPerFrame[index];
   }
 
-  public int getFrameCounter() {
-    return frameCounter;
-  }
-
-  public void setFrameCounter(int frameCounter) {
-    this.frameCounter = frameCounter;
-  }
-
-  public double getDelayPerFrame() {
-    return delayPerFrame;
-  }
-
-  public void setDelayPerFrame(double delayPerFrame) {
-    this.delayPerFrame = delayPerFrame;
-  }
-
-  public boolean isPaused() {
-    return isPaused;
-  }
-
-  public void setPaused(boolean paused) {
-    isPaused = paused;
+  public void setDelayAt(int index, float value) {
+    delayPerFrame[index] = value;
   }
 
   public boolean isLooping() {
@@ -96,9 +68,5 @@ public class Animation {
 
   public void setLooping(boolean looping) {
     this.isLooping = looping;
-  }
-
-  public boolean isEnded() {
-    return !isLooping && frameCounter == totalFrames - 1;
   }
 }

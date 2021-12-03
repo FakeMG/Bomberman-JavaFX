@@ -6,7 +6,6 @@ import com.example.bomberman.gameEngine.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 
 public class Brick extends Tile {
 
@@ -34,8 +33,9 @@ public class Brick extends Tile {
     this.item = item;
   }
 
-  public boolean hasItemUnder(char item) {
-    return this.item == item;
+  @Override
+  public void update(double deltaTime) {
+
   }
 
   public void playerEnter(Bomberman player) {
@@ -60,6 +60,10 @@ public class Brick extends Tile {
     }
   }
 
+  public boolean hasItemUnder(char item) {
+    return this.item == item;
+  }
+
   public char getItem() {
     return item;
   }
@@ -76,13 +80,7 @@ public class Brick extends Tile {
     isBroken = broken;
   }
 
-  @Override
-  public void update(double deltaTime) {
-
-  }
-
   public static void main(String[] args) {
-
     List<Tile> tiles = new ArrayList<>();
     Brick brick = new Brick(0, 0, null, 'x');
     tiles.add(brick);

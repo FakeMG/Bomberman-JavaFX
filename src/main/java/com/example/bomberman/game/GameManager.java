@@ -18,12 +18,29 @@ public class GameManager extends AbstractGame {
 
   @Override
   public void update(double deltaTime) {
-    for (Entity entity: Map.getMobs()) {
+    for (Entity entity: Map.players) {
       entity.update(deltaTime);
     }
-    for (Tile tile: Map.getTiles()) {
+
+    for (Entity entity: Map.mobs) {
+      entity.update(deltaTime);
+    }
+
+    for (Tile tile: Map.tiles) {
       tile.update(deltaTime);
     }
+
+    //TODO: possible lag
+    for (Bomb bomb : Map.bombs) {
+      bomb.update(deltaTime);
+    }
+    Map.bombs.removeIf(Bomb::isDead);
+
+    //TODO: possible lag
+    for (Flame flame : Map.flames) {
+      flame.update(deltaTime);
+    }
+    Map.flames.removeIf(Flame::isOff);
   }
 
   public static void main(String[] args) {

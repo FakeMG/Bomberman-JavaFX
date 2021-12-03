@@ -6,49 +6,76 @@ import com.example.bomberman.gameEngine.Input;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
 import com.example.bomberman.gameEngine.Tile;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
 public class Bomberman extends Entity {
 
   public final double DEFAULT_SPEED = 150;
-  public final int DEFAULT_BOMB_AMOUNT = 1;
+  public final int DEFAULT_BOMB_AMOUNT = 100;
   public final int DEFAULT_HEALTH = 1;
   public final int DEFAULT_FLAME_SIZE = 1;
-  public final double DELAY = 0.1; //seconds
+  public final double SMOOTH_SPEED = 70;
 
-  private Animation bomberUp;
-  private Animation bomberDown;
-  private Animation bomberRight;
-  private Animation bomberLeft;
-  private Animation bomberDead;
+  /**
+   * Velocity
+   */
   private double xVel;
   private double yVel;
-  private double currentFlameSize = DEFAULT_FLAME_SIZE;
-  private double currentSpeed = DEFAULT_SPEED;
-  private int availableBombs = DEFAULT_BOMB_AMOUNT;
+  private double maxSpeed = DEFAULT_SPEED;
+  private double currentSpeed = maxSpeed;
+
+  /**
+   * Flame
+   */
+  private int maxFlameSize = DEFAULT_FLAME_SIZE;
+  private int currentFlameSize = maxFlameSize;
+
+  /**
+   * Bombs
+   */
+  private int maxBombs = DEFAULT_BOMB_AMOUNT;
+  private int availableBombs = maxBombs;
+
   private int currentHealth = DEFAULT_HEALTH;
   private boolean isFacingRight = true;
   private boolean isFacingDown = true;
-  private List<Bomb> bombsList = new ArrayList<>();
 
   public Bomberman(double x, double y, Sprite sprite) {
     super(x, y, sprite);
-    bomberUp = new Animation(Sprite.bomber_up, Sprite.bomber_up.size(), DELAY, true);
-    bomberDown = new Animation(Sprite.bomber_down, Sprite.bomber_down.size(), DELAY, true);
-    bomberRight = new Animation(Sprite.bomber_right, Sprite.bomber_right.size(), DELAY, true);
-    bomberLeft = new Animation(Sprite.bomber_left, Sprite.bomber_left.size(), DELAY, true);
-    bomberDead = new Animation(Sprite.bomber_dead, Sprite.bomber_dead.size(), DELAY, false);
-    activeAnimation = bomberDown;
   }
 
   public Bomberman(Point2D position, Sprite sprite) {
     this(position.getX(), position.getY(), sprite);
   }
 
-  public void handleInput() {
+  public Bomberman(double x, double y, Animation animation) {
+    super(x, y, animation);
+  }
+
+  public Bomberman(Point2D position, Animation animation) {
+    super(position, animation);
+  }
+
+  @Override
+  public void update(double deltaTime) {
+    try {
+      if (!isDead) {
+        handleInput();
+        movementController(deltaTime);
+      }
+      animator();
+      animationController.play(deltaTime);
+      availableBombs = maxBombs - Map.bombs.size();
+    } catch (Exception ex) {
+      Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "CONTROLLER IS NULL!", ex);
+      System.exit(-1);
+    }
+  }
+
+  private void handleInput() {
     if (Input.isDown(KeyCode.W)) {
       yVel -= currentSpeed;
     }
@@ -62,8 +89,12 @@ public class Bomberman extends Entity {
       xVel += currentSpeed;
     }
     if (Input.isDown(KeyCode.SPACE)) {
-      //TODO: drop bomb
       if (availableBombs > 0) {
+        int x = (int) (getCenter().getX() / (Sprite.DEFAULT_SIZE * Sprite.SCALED)) * (
+                Sprite.DEFAULT_SIZE * Sprite.SCALED);
+        int y = (int) (getCenter().getY() / (Sprite.DEFAULT_SIZE * Sprite.SCALED)) * (
+                Sprite.DEFAULT_SIZE * Sprite.SCALED);
+        Map.bombs.add(new Bomb(x, y, Animation.bomb, maxFlameSize));
         availableBombs--;
       }
     }
@@ -82,89 +113,97 @@ public class Bomberman extends Entity {
     }
   }
 
-  public void movementController(double deltaTime) {
+  private void movementController(double deltaTime) {
+    //TODO: possible lag SEVERE
     //Cần phải update tọa độ x y riêng để check collision đc mượt hơn
+    //collision X
     position = position.add(xVel * deltaTime, 0);
     collision.setX(position.getX());
-    for (Tile tile : Map.getTiles()) {
+    for (Tile tile : Map.tiles) {
       if (tile.getTileType() != ' ') {
-        //check collision
-        if (Physic.checkCollision(tile.getCollision(), collision)) {
-          position = position.add(-xVel * deltaTime, 0);
-          collision.setX(position.getX());
-
-          //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
-          //Giúp di chuyển mượt hơn
-          if (getCenter().getY()
-                  <= tile.getCenter().getY() - tile.getSprite().getRealWidth() / 2) {
-            position = position.add(0, -2 * deltaTime);
-          } else if (getCenter().getY()
-                  >= tile.getCenter().getY() + tile.getSprite().getRealWidth() / 2) {
-            position = position.add(0, 2 * deltaTime);
-          }
-        }
+        updateCollisionX(deltaTime, tile);
+      }
+    }
+    for (Bomb bomb : Map.bombs) {
+      if (!bomb.letPlayerThrough()) {
+        updateCollisionX(deltaTime, bomb);
       }
     }
 
+    //collision Y
     position = position.add(0, yVel * deltaTime);
     collision.setY(position.getY());
-    for (Tile tile : Map.getTiles()) {
+    for (Tile tile : Map.tiles) {
       if (tile.getTileType() != ' ') {
-        //check collision
-        if (Physic.checkCollision(tile.getCollision(), collision)) {
-          position = position.add(0, -yVel * deltaTime);
-          collision.setY(position.getY());
-
-          //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
-          //Giúp di chuyển mượt hơn
-          if (getCenter().getX()
-                  <= tile.getCenter().getX() - tile.getSprite().getRealHeight() / 2) {
-            position = position.add(-2 * deltaTime, 0);
-          } else if (getCenter().getX()
-                  >= tile.getCenter().getX() + tile.getSprite().getRealHeight() / 2) {
-            position = position.add(2 * deltaTime, 0);
-          }
-        }
+        updateCollisionY(deltaTime, tile);
+      }
+    }
+    for (Bomb bomb : Map.bombs) {
+      if (!bomb.letPlayerThrough()) {
+        updateCollisionY(deltaTime, bomb);
       }
     }
   }
 
-  public void animationController() {
+  private void updateCollisionX(double deltaTime, Entity entity) {
+    if (Physic.checkCollision(collision, entity.getCollision())) {
+      position = position.add(-xVel * deltaTime, 0);
+      collision.setX(position.getX());
+
+      //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
+      //Giúp di chuyển mượt hơn
+      if (getCenter().getY()
+              <= entity.getCenter().getY() - entity.getSprite().getRealWidth() / 2) {
+        position = position.add(0, -SMOOTH_SPEED * deltaTime);
+      } else if (getCenter().getY()
+              >= entity.getCenter().getY() + entity.getSprite().getRealWidth() / 2) {
+        position = position.add(0, SMOOTH_SPEED * deltaTime);
+      }
+    }
+  }
+
+  private void updateCollisionY(double deltaTime, Entity entity) {
+    if (Physic.checkCollision(collision, entity.getCollision())) {
+      position = position.add(0, -yVel * deltaTime);
+      collision.setY(position.getY());
+
+      //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
+      //Giúp di chuyển mượt hơn
+      if (getCenter().getX()
+              <= entity.getCenter().getX() - entity.getSprite().getRealHeight() / 2) {
+        position = position.add(-SMOOTH_SPEED * deltaTime, 0);
+      } else if (getCenter().getX()
+              >= entity.getCenter().getX() + entity.getSprite().getRealHeight() / 2) {
+        position = position.add(SMOOTH_SPEED * deltaTime, 0);
+      }
+
+    }
+  }
+
+  private void animator() {
     if (xVel > 0) {
       isFacingRight = true;
-      switchAnimation(bomberRight);
+      animationController.switchAnimation(Animation.bomberRight);
     }
     if (xVel < 0) {
       isFacingRight = false;
-      switchAnimation(bomberLeft);
+      animationController.switchAnimation(Animation.bomberLeft);
     }
 
     if (yVel > 0) {
       isFacingDown = true;
-      switchAnimation(bomberDown);
+      animationController.switchAnimation(Animation.bomberDown);
     }
     if (yVel < 0) {
       isFacingDown = false;
-      switchAnimation(bomberUp);
+      animationController.switchAnimation(Animation.bomberUp);
+    }
+    if (isDead()) {
+      animationController.switchAnimation(Animation.bomberDead);
     }
 
-    if (xVel + yVel == 0) {
-      activeAnimation.setPaused(true);
-    }
-  }
-
-  private void switchAnimation(Animation animation) {
-    activeAnimation = animation;
-    activeAnimation.setPaused(false);
-  }
-
-  @Override
-  public void update(double deltaTime) {
-    handleInput();
-    movementController(deltaTime);
-    animationController();
-    if (activeAnimation != null) {
-      activeAnimation.run(deltaTime);
+    if (xVel + yVel == 0 && !isDead) {
+      animationController.setPaused(true);
     }
   }
 }

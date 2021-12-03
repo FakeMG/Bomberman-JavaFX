@@ -5,11 +5,12 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
-  protected Animation activeAnimation = null;
+  protected AnimationController animationController;
   protected Point2D position;
   protected Sprite sprite;
   protected Rectangle collision;
   protected float rotation;
+  protected boolean isDead = false;
   protected float scale = 1;
 
   public Entity(double x, double y, Sprite sprite) {
@@ -21,12 +22,21 @@ public abstract class Entity {
   }
 
   public Entity(Point2D position, Sprite sprite) {
-    this.position = position;
-    this.sprite = sprite;
-    if (sprite != null) {
-      this.collision = new Rectangle(position.getX(), position.getY(), sprite.getRealWidth(),
-              sprite.getRealHeight());
+    this(position.getX(), position.getY(), sprite);
+  }
+
+  public Entity(double x, double y, Animation animation) {
+    position = new Point2D(x, y);
+    if (animation != null) {
+      sprite = animation.getSprites().get(0);
+      animationController = new AnimationController(animation);
+      this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
+              animation.getSprites().get(0).getRealHeight());
     }
+  }
+
+  public Entity(Point2D position, Animation animation) {
+    this(position.getX(), position.getY(), animation);
   }
 
   public abstract void update(double deltaTime);
@@ -69,15 +79,19 @@ public abstract class Entity {
     this.scale = scale;
   }
 
-  public Animation getActiveAnimation() {
-    return activeAnimation;
-  }
-
-  public void setActiveAnimation(Animation activeAnimation) {
-    this.activeAnimation = activeAnimation;
+  public AnimationController getAnimationController() {
+    return animationController;
   }
 
   public Sprite getSprite() {
     return sprite;
+  }
+
+  public boolean isDead() {
+    return isDead;
+  }
+
+  public void setDead(boolean dead) {
+    isDead = dead;
   }
 }

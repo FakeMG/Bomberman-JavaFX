@@ -1,6 +1,6 @@
 package com.example.bomberman.gameEngine;
 
-import java.util.ArrayList;
+import com.example.bomberman.game.Map;
 import java.util.List;
 import java.util.Objects;
 import javafx.geometry.Point2D;
@@ -15,27 +15,10 @@ public class Renderer {
   GraphicsContext context;
   Image background = new Image(
           Objects.requireNonNull(Renderer.class.getResourceAsStream("space.png")));
-  public static List<Entity> entities = new ArrayList<>();
 
   public Renderer(Canvas canvas) {
     this.canvas = canvas;
     this.context = canvas.getGraphicsContext2D();
-  }
-
-  public static void addEntity(Entity entity) {
-    entities.add(entity);
-  }
-
-  public static void addEntity(List<? extends Entity> newEntities) {
-    entities.addAll(newEntities);
-  }
-
-  public void removeEntity(Entity entity) {
-    entities.remove(entity);
-  }
-
-  public void clearEntities() {
-    entities.clear();
   }
 
   public void setBackground(Image background) {
@@ -54,21 +37,10 @@ public class Renderer {
       context.drawImage(background, 32, 32, background.getWidth(), background.getHeight());
     }
 
-    for (Entity entity : entities) {
-      transformContext(entity);
-      Point2D pos = entity.getPosition();
-      Image entityTexture = entity.sprite.getTexture();
-      if (entity.getActiveAnimation() != null) {
-        entityTexture = entity.getActiveAnimation().getCurrentFrame();
-      }
-      context.drawImage(
-              entityTexture,
-              pos.getX(),
-              pos.getY(),
-              entity.sprite.getTexture().getWidth(),
-              entity.sprite.getTexture().getHeight()
-      );
-    }
+    renderEntities(Map.tiles);
+    renderEntities(Map.bombs);
+    renderEntities(Map.flames);
+    renderEntities(Map.players);
     context.restore();
   }
 
@@ -85,6 +57,24 @@ public class Renderer {
     } catch (Exception e) {
       System.out.println("Can not draw image!");
       e.printStackTrace();
+    }
+  }
+
+  public <T extends Entity> void renderEntities(List<T> entities) {
+    for (T entity : entities) {
+      transformContext(entity);
+      Point2D pos = entity.getPosition();
+      Image entityTexture = entity.sprite.getTexture();
+      if (entity.getAnimationController() != null) {
+        entityTexture = entity.getAnimationController().getCurrentFrame();
+      }
+      context.drawImage(
+              entityTexture,
+              pos.getX(),
+              pos.getY(),
+              entity.sprite.getTexture().getWidth(),
+              entity.sprite.getTexture().getHeight()
+      );
     }
   }
 

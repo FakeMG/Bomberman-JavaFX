@@ -1,7 +1,7 @@
 package com.example.bomberman.game;
 
+import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Entity;
-import com.example.bomberman.gameEngine.Renderer;
 import com.example.bomberman.gameEngine.Sprite;
 import com.example.bomberman.gameEngine.Tile;
 import java.io.BufferedReader;
@@ -24,8 +24,11 @@ public class Map {
   private int numOfColumns;
   private int numOfRows;
   private final int TOTAL_TILES;
-  private static List<Tile> tiles = new ArrayList<>();
-  private static List<Entity> mobs = new ArrayList<>();
+  public static final List<Tile> tiles = new ArrayList<>();
+  public static final List<Entity> mobs = new ArrayList<>();
+  public static final List<Bomberman> players = new ArrayList<>();
+  public static final List<Bomb> bombs = new ArrayList<>();
+  public static final List<Flame> flames = new ArrayList<>();
   private FileInputStream fileInputStream = null;
   private BufferedReader bufferedReader = null;
 
@@ -74,8 +77,8 @@ public class Map {
               tiles.add(brick2);
             }
             case 'p' -> {
-              Bomberman player = new Bomberman(x, y, Sprite.bomber_down.get(0));
-              mobs.add(player);
+              Bomberman player = new Bomberman(x, y, Animation.bomberDown);
+              players.add(player);
               tile = new Tile(x, y, Sprite.grass, ' ');
               tiles.add(tile);
             }
@@ -123,11 +126,6 @@ public class Map {
       Logger.getLogger(Map.class.getName()).log(Level.SEVERE, "ERROR WHILE READING MAP!", ex);
     } finally {
       try {
-        //CHÚ Ý THỨ TỰ ADD
-        //add trước thì sẽ render trước
-        //render sau sẽ đè lên render trước
-        Renderer.addEntity(tiles);
-        Renderer.addEntity(mobs);
         System.out.println("mobs: " + mobs.size());
         System.out.println("tiles: " + tiles.size());
         bufferedReader.close();
@@ -168,13 +166,5 @@ public class Map {
 
   public int getTOTAL_TILES() {
     return TOTAL_TILES;
-  }
-
-  public static List<Tile> getTiles() {
-    return tiles;
-  }
-
-  public static List<Entity> getMobs() {
-    return mobs;
   }
 }
