@@ -2,6 +2,8 @@ package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
 import com.example.bomberman.game.entities.Bomberman;
+import com.example.bomberman.game.entities.item.BombItem;
+import com.example.bomberman.game.entities.item.FlameItem;
 import com.example.bomberman.game.entities.tile.Brick;
 import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.tile.LayeredTile;
@@ -104,11 +106,24 @@ public class Map {
               tile = new Tile(x, y, Sprite.grass, ' ');
               tiles.add(tile);
             }
-            case 'b', 'f', 's' -> {
-              //các item được giấu dưới brick
-              //TODO: create items
+            case 'b' -> {
               LayeredTile layeredTile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
+                      new BombItem(x, y, Sprite.powerUp_bombs),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+              tiles.add(layeredTile);
+            }
+            case 'f' -> {
+              LayeredTile layeredTile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new FlameItem(x, y, Sprite.powerUp_flames),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+              tiles.add(layeredTile);
+            }
+            case 's' -> {
+              LayeredTile layeredTile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new FlameItem(x, y, Sprite.powerUp_speed),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
               tiles.add(layeredTile);
             }

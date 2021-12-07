@@ -6,6 +6,7 @@ import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
+import java.awt.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
@@ -72,29 +73,68 @@ public class Bomb extends Entity {
 
   private void createFlame() {
     Map.flames.add(new Flame(position, Animation.explosion_centre));
+    boolean stopUp = false;
+    boolean stopDown = false;
+    boolean stopLeft = false;
+    boolean stopRight = false;
 
     for (int i = 1; i <= flameSize; i++) {
-      Point2D newPositionRight = new Point2D(
-              position.getX() + i * Sprite.DEFAULT_SIZE * Sprite.SCALED, position.getY());
-      Point2D newPositionLeft = new Point2D(
-              position.getX() + -i * Sprite.DEFAULT_SIZE * Sprite.SCALED, position.getY());
+      Rectangle right = new Rectangle(
+              (int) position.getX() + i * Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              (int) position.getY(),
+              Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED);
+      Rectangle left = new Rectangle(
+              (int) position.getX() + -i * Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              (int) position.getY(),
+              Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED);
+      Rectangle down = new Rectangle(
+              (int) position.getX(),
+              (int) position.getY() + i * Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED);
+      Rectangle up = new Rectangle(
+              (int) position.getX(),
+              (int) position.getY() + -i * Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED,
+              Sprite.DEFAULT_SIZE * Sprite.SCALED);
 
-      Point2D newPositionDown = new Point2D(
-              position.getX(), position.getY() + i * Sprite.DEFAULT_SIZE * Sprite.SCALED);
-      Point2D newPositionUp = new Point2D(
-              position.getX(), position.getY() + -i * Sprite.DEFAULT_SIZE * Sprite.SCALED);
-
-      if (i == flameSize) {
-        Map.flames.add(new Flame(newPositionRight, Animation.explosion_right_end));
-        Map.flames.add(new Flame(newPositionLeft, Animation.explosion_left_end));
-        Map.flames.add(new Flame(newPositionDown, Animation.explosion_down_end));
-        Map.flames.add(new Flame(newPositionUp, Animation.explosion_up_end));
-      } else {
-        Map.flames.add(new Flame(newPositionRight, Animation.explosion_horizontal));
-        Map.flames.add(new Flame(newPositionLeft, Animation.explosion_horizontal));
-        Map.flames.add(new Flame(newPositionDown, Animation.explosion_vertical));
-        Map.flames.add(new Flame(newPositionUp, Animation.explosion_vertical));
+      if (!stopRight) {
+        if (i == flameSize) {
+          Map.flames.add(new Flame(right.getX(), right.getY(), Animation.explosion_right_end));
+        } else {
+          Map.flames.add(new Flame(right.getX(), right.getY(), Animation.explosion_horizontal));
+        }
+        stopRight = Map.flames.get(Map.flames.size() - 1).collideWithTile();
       }
+
+      if (!stopLeft) {
+        if (i == flameSize) {
+          Map.flames.add(new Flame(left.getX(), left.getY(), Animation.explosion_left_end));
+        } else {
+          Map.flames.add(new Flame(left.getX(), left.getY(), Animation.explosion_horizontal));
+        }
+        stopLeft = Map.flames.get(Map.flames.size() - 1).collideWithTile();
+      }
+
+      if (!stopDown) {
+        if (i == flameSize) {
+          Map.flames.add(new Flame(down.getX(), down.getY(), Animation.explosion_down_end));
+        } else {
+          Map.flames.add(new Flame(down.getX(), down.getY(), Animation.explosion_vertical));
+        }
+        stopDown = Map.flames.get(Map.flames.size() - 1).collideWithTile();
+      }
+
+      if (!stopUp) {
+        if (i == flameSize) {
+          Map.flames.add(new Flame(up.getX(), up.getY(), Animation.explosion_up_end));
+        } else {
+          Map.flames.add(new Flame(up.getX(), up.getY(), Animation.explosion_vertical));
+        }
+      }
+      stopUp = Map.flames.get(Map.flames.size() - 1).collideWithTile();
     }
   }
 

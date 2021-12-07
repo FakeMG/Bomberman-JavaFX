@@ -6,13 +6,14 @@ import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
 import javafx.geometry.Point2D;
 
-public class BombItem extends Item {
+public class SpeedItem extends Item {
+  public final double BUFF_AMOUNT = 50;
 
-  public BombItem(double x, double y, Sprite sprite) {
+  public SpeedItem(double x, double y, Sprite sprite) {
     super(x, y, sprite);
   }
 
-  public BombItem(Point2D position, Sprite sprite) {
+  public SpeedItem(Point2D position, Sprite sprite) {
     this(position.getX(), position.getY(), sprite);
   }
 
@@ -20,7 +21,7 @@ public class BombItem extends Item {
   public void affect() {
     for (Bomberman player : Map.players) {
       if (Physic.checkCollision(collision, player.getCollision())) {
-        player.setMaxBombs(player.getMaxBombs() + 1);
+        player.setMaxSpeed(player.getMaxSpeed() + BUFF_AMOUNT);
         isDead = true;
       }
     }

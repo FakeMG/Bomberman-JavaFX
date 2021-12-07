@@ -1,9 +1,9 @@
 package com.example.bomberman.game.entities;
 
 import com.example.bomberman.game.Map;
+import com.example.bomberman.game.entities.item.Item;
 import com.example.bomberman.game.entities.tile.Brick;
 import com.example.bomberman.game.entities.tile.LayeredTile;
-import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
@@ -56,21 +56,6 @@ public class Flame extends Entity {
   }
 
   private void updateCollision() {
-    //TODO: possible lag SEVERE
-    for (Tile tile : Map.tiles) {
-      if (Physic.checkCollision(tile.getCollision(), collision) && !tile.canBePassedThrough()) {
-        isDead = true;
-
-        if (tile.getTileType() == '&') {
-          Entity entity = ((LayeredTile) tile).getTop();
-          if (entity instanceof Brick) {
-            entity.setDying(true);
-          }
-          //TODO: destroy item
-        }
-      }
-    }
-
     for (Entity entity : Map.mobs) {
       if (Physic.checkCollision(entity.getCollision(), collision)) {
         entity.setDead(true);
@@ -88,5 +73,30 @@ public class Flame extends Entity {
         bomb.setDead(true);
       }
     }
+  }
+
+  //Dùng trong createFlame của Bomb
+  public boolean collideWithTile() {
+    //TODO: possible lag SEVERE
+    for (Entity tile : Map.tiles) {
+      if (Physic.checkCollision(tile.getCollision(), collision)) {
+        //gây tác động đến đối tượng bị collide
+        if (tile instanceof LayeredTile) {
+          tile = ((LayeredTile) tile).getTop();
+        }
+
+        if (!tile.canBePassedThrough()) {
+          if (tile instanceof Brick) {
+            tile.setDying(true);
+          }
+          isDead = true;
+          return true;
+        }
+        if (tile instanceof Item) {
+          tile.setDead(true);
+        }
+      }
+    }
+    return false;
   }
 }

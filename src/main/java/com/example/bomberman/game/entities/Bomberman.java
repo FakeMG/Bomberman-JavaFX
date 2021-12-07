@@ -17,7 +17,7 @@ import javafx.scene.input.KeyCode;
 public class Bomberman extends Entity {
 
   public final double DEFAULT_SPEED = 150;
-  public final int DEFAULT_BOMB_AMOUNT = 100;
+  public final int DEFAULT_BOMB_AMOUNT = 1;
   public final int DEFAULT_HEALTH = 1;
   public final int DEFAULT_FLAME_SIZE = 1;
   public final double SMOOTH_SPEED = 70;
@@ -207,4 +207,27 @@ public class Bomberman extends Entity {
     return animator.getCurrentFrame();
   }
 
+  public double getMaxSpeed() {
+    return maxSpeed;
+  }
+
+  public void setMaxSpeed(double maxSpeed) {
+    this.maxSpeed = maxSpeed;
+  }
+
+  public int getMaxFlameSize() {
+    return maxFlameSize;
+  }
+
+  public void setMaxFlameSize(int maxFlameSize) {
+    this.maxFlameSize = maxFlameSize;
+  }
+
+  public int getMaxBombs() {
+    return maxBombs;
+  }
+
+  public void setMaxBombs(int maxBombs) {
+    this.maxBombs = maxBombs;
+  }
 }
