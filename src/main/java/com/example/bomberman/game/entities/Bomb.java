@@ -1,33 +1,30 @@
-package com.example.bomberman.game;
+package com.example.bomberman.game.entities;
 
+import com.example.bomberman.game.Map;
 import com.example.bomberman.gameEngine.Animation;
+import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 
 public class Bomb extends Entity {
 
+  private Animator animator;
   private final float COUNT_DOWN_TIME = 2; //seconds
   private float counter;
   private int flameSize;
   private boolean letPlayerThrough = true;
 
-  public Bomb(double x, double y, Sprite sprite, int flameSize) {
-    super(x, y, sprite);
-    this.flameSize = flameSize;
-  }
-
-  public Bomb(Point2D position, Sprite sprite, int flameSize) {
-    this(position.getX(), position.getY(), sprite, flameSize);
-  }
-
   public Bomb(double x, double y, Animation animation, int flameSize) {
-    super(x, y, animation);
+    super(x, y, animation.getSprites().get(0));
     this.flameSize = flameSize;
+    animator = new Animator(animation);
+    animator.setPaused(false);
+    canBePassedThrough = false;
   }
 
   public Bomb(Point2D position, Animation animation, int flameSize) {
@@ -42,12 +39,21 @@ public class Bomb extends Entity {
       if (isDead) {
         createFlame();
       }
-      animationController.play(deltaTime);
+      animatorController(deltaTime);
       updateCollision();
     } catch (Exception ex) {
-      Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "CONTROLLER IS NULL", ex);
+      Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "ANIMATOR IS NULL", ex);
       System.exit(-1);
     }
+  }
+
+  private void animatorController(double deltaTime) {
+    animator.update(deltaTime);
+  }
+
+  @Override
+  public Image getTexture() {
+    return animator.getCurrentFrame();
   }
 
   private void countDown() {
@@ -57,7 +63,7 @@ public class Bomb extends Entity {
   }
 
   private void updateCollision() {
-    for (Entity player: Map.players) {
+    for (Entity player : Map.players) {
       if (!Physic.checkCollision(player.getCollision(), collision)) {
         letPlayerThrough = false;
       }

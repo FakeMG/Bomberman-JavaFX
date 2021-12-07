@@ -1,9 +1,14 @@
 package com.example.bomberman.game;
 
+import com.example.bomberman.game.entities.Bomb;
+import com.example.bomberman.game.entities.Bomberman;
+import com.example.bomberman.game.entities.tile.Brick;
+import com.example.bomberman.game.entities.Flame;
+import com.example.bomberman.game.entities.tile.LayeredTile;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Sprite;
-import com.example.bomberman.gameEngine.Tile;
+import com.example.bomberman.game.entities.tile.Tile;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,13 +73,18 @@ public class Map {
             }
             case '*' -> {
               //bên dưới brick sẽ là grass
-              Brick brick = new Brick(x, y, Sprite.brick);
-              tiles.add(brick);
+              LayeredTile layeredTile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+              tiles.add(layeredTile);
             }
             case 'x' -> {
               //poral giấu sau brick và bên trên grass
-              Brick brick2 = new Brick(x, y, Sprite.brick, 'x');
-              tiles.add(brick2);
+              //TODO: create portal
+              LayeredTile layeredTile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+              tiles.add(layeredTile);
             }
             case 'p' -> {
               Bomberman player = new Bomberman(x, y, Animation.bomberDown);
@@ -96,8 +106,11 @@ public class Map {
             }
             case 'b', 'f', 's' -> {
               //các item được giấu dưới brick
-              Brick brick3 = new Brick(x, y, Sprite.brick, tileType);
-              tiles.add(brick3);
+              //TODO: create items
+              LayeredTile layeredTile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+              tiles.add(layeredTile);
             }
             case ' ' -> {
               tile = new Tile(x, y, Sprite.grass, ' ');

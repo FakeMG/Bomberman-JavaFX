@@ -1,11 +1,11 @@
 package com.example.bomberman.game;
 
+import com.example.bomberman.game.entities.Bomb;
+import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.gameEngine.AbstractGame;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.GameContainer;
-import com.example.bomberman.gameEngine.Renderer;
-import com.example.bomberman.gameEngine.Sprite;
-import com.example.bomberman.gameEngine.Tile;
+import com.example.bomberman.game.entities.tile.Tile;
 
 public class GameManager extends AbstractGame {
 
@@ -40,7 +40,7 @@ public class GameManager extends AbstractGame {
     for (Flame flame : Map.flames) {
       flame.update(deltaTime);
     }
-    Map.flames.removeIf(Flame::isOff);
+    Map.flames.removeIf(Flame::isDead);
   }
 
   public static void main(String[] args) {

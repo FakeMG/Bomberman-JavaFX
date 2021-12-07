@@ -1,14 +1,17 @@
-package com.example.bomberman.game;
+package com.example.bomberman.game.entities;
 
+import com.example.bomberman.game.Map;
+import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animation;
+import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Input;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
-import com.example.bomberman.gameEngine.Tile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public class Bomberman extends Entity {
@@ -18,6 +21,8 @@ public class Bomberman extends Entity {
   public final int DEFAULT_HEALTH = 1;
   public final int DEFAULT_FLAME_SIZE = 1;
   public final double SMOOTH_SPEED = 70;
+
+  private Animator animator;
 
   /**
    * Velocity
@@ -43,20 +48,13 @@ public class Bomberman extends Entity {
   private boolean isFacingRight = true;
   private boolean isFacingDown = true;
 
-  public Bomberman(double x, double y, Sprite sprite) {
-    super(x, y, sprite);
-  }
-
-  public Bomberman(Point2D position, Sprite sprite) {
-    this(position.getX(), position.getY(), sprite);
-  }
-
   public Bomberman(double x, double y, Animation animation) {
-    super(x, y, animation);
+    super(x, y, animation.getSprites().get(0));
+    animator = new Animator(animation);
   }
 
   public Bomberman(Point2D position, Animation animation) {
-    super(position, animation);
+    this(position.getX(), position.getY(), animation);
   }
 
   @Override
@@ -66,13 +64,41 @@ public class Bomberman extends Entity {
         handleInput();
         movementController(deltaTime);
       }
-      animator();
-      animationController.play(deltaTime);
+      animatorController(deltaTime);
       availableBombs = maxBombs - Map.bombs.size();
     } catch (Exception ex) {
       Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "CONTROLLER IS NULL!", ex);
       System.exit(-1);
     }
+  }
+
+  private void animatorController(double deltaTime) {
+    if (xVel > 0) {
+      isFacingRight = true;
+      animator.switchAnimation(Animation.bomberRight);
+    }
+    if (xVel < 0) {
+      isFacingRight = false;
+      animator.switchAnimation(Animation.bomberLeft);
+    }
+
+    if (yVel > 0) {
+      isFacingDown = true;
+      animator.switchAnimation(Animation.bomberDown);
+    }
+    if (yVel < 0) {
+      isFacingDown = false;
+      animator.switchAnimation(Animation.bomberUp);
+    }
+    if (isDead()) {
+      animator.switchAnimation(Animation.bomberDead);
+    }
+
+    if (xVel + yVel == 0 && !isDead) {
+      animator.setPaused(true);
+    }
+
+    animator.update(deltaTime);
   }
 
   private void handleInput() {
@@ -120,9 +146,7 @@ public class Bomberman extends Entity {
     position = position.add(xVel * deltaTime, 0);
     collision.setX(position.getX());
     for (Tile tile : Map.tiles) {
-      if (tile.getTileType() != ' ') {
-        updateCollisionX(deltaTime, tile);
-      }
+      updateCollisionX(deltaTime, tile);
     }
     for (Bomb bomb : Map.bombs) {
       if (!bomb.letPlayerThrough()) {
@@ -134,9 +158,7 @@ public class Bomberman extends Entity {
     position = position.add(0, yVel * deltaTime);
     collision.setY(position.getY());
     for (Tile tile : Map.tiles) {
-      if (tile.getTileType() != ' ') {
-        updateCollisionY(deltaTime, tile);
-      }
+      updateCollisionY(deltaTime, tile);
     }
     for (Bomb bomb : Map.bombs) {
       if (!bomb.letPlayerThrough()) {
@@ -146,7 +168,7 @@ public class Bomberman extends Entity {
   }
 
   private void updateCollisionX(double deltaTime, Entity entity) {
-    if (Physic.checkCollision(collision, entity.getCollision())) {
+    if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
       position = position.add(-xVel * deltaTime, 0);
       collision.setX(position.getX());
 
@@ -163,7 +185,7 @@ public class Bomberman extends Entity {
   }
 
   private void updateCollisionY(double deltaTime, Entity entity) {
-    if (Physic.checkCollision(collision, entity.getCollision())) {
+    if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
       position = position.add(0, -yVel * deltaTime);
       collision.setY(position.getY());
 
@@ -180,30 +202,9 @@ public class Bomberman extends Entity {
     }
   }
 
-  private void animator() {
-    if (xVel > 0) {
-      isFacingRight = true;
-      animationController.switchAnimation(Animation.bomberRight);
-    }
-    if (xVel < 0) {
-      isFacingRight = false;
-      animationController.switchAnimation(Animation.bomberLeft);
-    }
-
-    if (yVel > 0) {
-      isFacingDown = true;
-      animationController.switchAnimation(Animation.bomberDown);
-    }
-    if (yVel < 0) {
-      isFacingDown = false;
-      animationController.switchAnimation(Animation.bomberUp);
-    }
-    if (isDead()) {
-      animationController.switchAnimation(Animation.bomberDead);
-    }
-
-    if (xVel + yVel == 0 && !isDead) {
-      animationController.setPaused(true);
-    }
+  @Override
+  public Image getTexture() {
+    return animator.getCurrentFrame();
   }
+
 }

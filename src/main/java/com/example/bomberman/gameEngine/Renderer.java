@@ -1,6 +1,7 @@
 package com.example.bomberman.gameEngine;
 
 import com.example.bomberman.game.Map;
+import com.example.bomberman.game.entities.tile.LayeredTile;
 import java.util.List;
 import java.util.Objects;
 import javafx.geometry.Point2D;
@@ -64,17 +65,27 @@ public class Renderer {
     for (T entity : entities) {
       transformContext(entity);
       Point2D pos = entity.getPosition();
-      Image entityTexture = entity.sprite.getTexture();
-      if (entity.getAnimationController() != null) {
-        entityTexture = entity.getAnimationController().getCurrentFrame();
+
+      Image entityTexture = entity.getTexture();
+      if (entityTexture != null) {
+        if (entity instanceof LayeredTile) {
+          Image entityTexture2 = ((LayeredTile) entity).getBottom().getTexture();
+          context.drawImage(
+                  entityTexture2,
+                  pos.getX(),
+                  pos.getY(),
+                  entity.getTexture().getWidth(),
+                  entity.getTexture().getHeight()
+          );
+        }
+        context.drawImage(
+                entityTexture,
+                pos.getX(),
+                pos.getY(),
+                entity.getTexture().getWidth(),
+                entity.getTexture().getHeight()
+        );
       }
-      context.drawImage(
-              entityTexture,
-              pos.getX(),
-              pos.getY(),
-              entity.sprite.getTexture().getWidth(),
-              entity.sprite.getTexture().getHeight()
-      );
     }
   }
 

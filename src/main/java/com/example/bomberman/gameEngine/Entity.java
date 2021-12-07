@@ -1,16 +1,18 @@
 package com.example.bomberman.gameEngine;
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
 
-  protected AnimationController animationController;
   protected Point2D position;
   protected Sprite sprite;
   protected Rectangle collision;
   protected float rotation;
+  protected boolean canBePassedThrough = true;
   protected boolean isDead = false;
+  protected boolean isDying = false; //bắt đầu trạng thái chết
   protected float scale = 1;
 
   public Entity(double x, double y, Sprite sprite) {
@@ -25,19 +27,31 @@ public abstract class Entity {
     this(position.getX(), position.getY(), sprite);
   }
 
-  public Entity(double x, double y, Animation animation) {
-    position = new Point2D(x, y);
-    if (animation != null) {
-      sprite = animation.getSprites().get(0);
-      animationController = new AnimationController(animation);
-      this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
-              animation.getSprites().get(0).getRealHeight());
-    }
-  }
-
-  public Entity(Point2D position, Animation animation) {
-    this(position.getX(), position.getY(), animation);
-  }
+//  public Entity(double x, double y, Animation animation) {
+//    position = new Point2D(x, y);
+//    sprite = animation.getSprites().get(0);
+//    animationController = new AnimationController(animation);
+//    this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
+//            animation.getSprites().get(0).getRealHeight());
+//
+//  }
+//
+//  public Entity(Point2D position, Animation animation) {
+//    this(position.getX(), position.getY(), animation);
+//  }
+//
+//  public Entity(double x, double y, Sprite sprite, Animation animation) {
+//    position = new Point2D(x, y);
+//    this.sprite = sprite;
+//    animationController = new AnimationController(animation);
+//    this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
+//            animation.getSprites().get(0).getRealHeight());
+//
+//  }
+//
+//  public Entity(Point2D position, Sprite sprite, Animation animation) {
+//    this(position.getX(), position.getY(), sprite, animation);
+//  }
 
   public abstract void update(double deltaTime);
 
@@ -79,10 +93,6 @@ public abstract class Entity {
     this.scale = scale;
   }
 
-  public AnimationController getAnimationController() {
-    return animationController;
-  }
-
   public Sprite getSprite() {
     return sprite;
   }
@@ -94,4 +104,21 @@ public abstract class Entity {
   public void setDead(boolean dead) {
     isDead = dead;
   }
+
+  public boolean isDying() {
+    return isDying;
+  }
+
+  public void setDying(boolean dying) {
+    isDying = dying;
+  }
+
+  public boolean canBePassedThrough() {
+    return canBePassedThrough;
+  }
+
+  public Image getTexture() {
+    return sprite.getTexture();
+  }
+
 }

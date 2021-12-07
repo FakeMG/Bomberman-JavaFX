@@ -7,8 +7,9 @@ public class Animation {
 
   public static final float PLAYER_DELAY = 0.1f; //seconds
   public static final float PLAYER_DEAD_DELAY = 0.3f; //seconds
-  public static final float BOMB_DELAY = 0.3f; //seconds
+  public static final float BOMB_DELAY = 0.2f; //seconds
   public static final float FLAME_DELAY = 0.1f; //seconds
+  public static final float BRICK_DELAY = 0.1f; //seconds
 
   public static Animation bomberUp = new Animation(Sprite.bomber_up, PLAYER_DELAY, true);
   public static Animation bomberDown = new Animation(Sprite.bomber_down, PLAYER_DELAY, true);
@@ -32,6 +33,8 @@ public class Animation {
           FLAME_DELAY, false);
   public static Animation explosion_down_end = new Animation(Sprite.explosion_down_end, FLAME_DELAY,
           false);
+
+  public static Animation brick_broken = new Animation(Sprite.brick_broken, BRICK_DELAY, false);
 
   private int totalFrames;
   private ArrayList<Sprite> sprites;

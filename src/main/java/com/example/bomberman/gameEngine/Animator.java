@@ -4,18 +4,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
-public class AnimationController {
+public class Animator {
 
   private Animation currentAnimation;
-  private boolean isPaused = false;
+  private boolean isPaused = true;
   private int frameCounter;
   private double timeCounter;
 
-  public AnimationController(Animation currentAnimation) {
+  public Animator(Animation currentAnimation) {
     this.currentAnimation = currentAnimation;
   }
 
-  public void play(double deltaTime) {
+  public void update(double deltaTime) {
     try {
       if (!isPaused) {
         timeCounter += deltaTime;
@@ -28,8 +28,7 @@ public class AnimationController {
         frameCounter = 0;
       }
     } catch (NullPointerException ex) {
-      Logger.getLogger(AnimationController.class.getName())
-              .log(Level.SEVERE, "ANIMATION IS NULL!", ex);
+      Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, "ANIMATION IS NULL!", ex);
     }
 
   }
@@ -46,7 +45,7 @@ public class AnimationController {
   }
 
   private void playTheAnimationOnce() {
-    if (frameCounter < currentAnimation.getTotalFrames() - 1
+    if (frameCounter < currentAnimation.getTotalFrames()
             && timeCounter >= currentAnimation.getDelayAt(frameCounter)) {
       frameCounter++;
       timeCounter = 0;
@@ -77,7 +76,7 @@ public class AnimationController {
   }
 
   public boolean isEnded() {
-    return !currentAnimation.isLooping() && frameCounter == currentAnimation.getTotalFrames() - 1;
+    return !currentAnimation.isLooping() && frameCounter == currentAnimation.getTotalFrames();
   }
 
   public void switchAnimation(Animation animation) {
