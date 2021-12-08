@@ -36,6 +36,16 @@ public class Animation {
 
   public static Animation brick_broken = new Animation(Sprite.brick_broken, BRICK_DELAY, false);
 
+  public static Animation ballom_left = new Animation(Sprite.ballom_left, PLAYER_DELAY, true);
+  public static Animation ballom_right = new Animation(Sprite.ballom_right, PLAYER_DELAY, true);
+  public static Animation ballom_dead = new Animation(Sprite.balloom_dead, PLAYER_DELAY, true);
+
+  public static Animation oneal_left = new Animation(Sprite.oneal_left, PLAYER_DELAY, true);
+  public static Animation oneal_right = new Animation(Sprite.oneal_right, PLAYER_DELAY, true);
+  public static Animation oneal_dead = new Animation(Sprite.oneal_dead, PLAYER_DELAY, true);
+
+  public static Animation mob_dead = new Animation(Sprite.mob_dead, PLAYER_DELAY, false);
+
   private int totalFrames;
   private ArrayList<Sprite> sprites;
   private boolean isLooping = false;

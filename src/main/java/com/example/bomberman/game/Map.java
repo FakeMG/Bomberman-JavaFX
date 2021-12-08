@@ -2,8 +2,11 @@ package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
 import com.example.bomberman.game.entities.Bomberman;
+import com.example.bomberman.game.entities.enemy.Ballom;
+import com.example.bomberman.game.entities.enemy.Portal;
 import com.example.bomberman.game.entities.item.BombItem;
 import com.example.bomberman.game.entities.item.FlameItem;
+import com.example.bomberman.game.entities.item.SpeedItem;
 import com.example.bomberman.game.entities.tile.Brick;
 import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.tile.LayeredTile;
@@ -85,6 +88,7 @@ public class Map {
               //TODO: create portal
               LayeredTile layeredTile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
+                      new Portal(x, y, Sprite.portal),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
               tiles.add(layeredTile);
             }
@@ -95,8 +99,8 @@ public class Map {
               tiles.add(tile);
             }
             case '1' -> {
-              //TODO:
-              System.out.println("create balloon " + x + " " + y);
+              Ballom ballom = new Ballom(x, y, Animation.ballom_left);
+              mobs.add(ballom);
               tile = new Tile(x, y, Sprite.grass, ' ');
               tiles.add(tile);
             }
@@ -123,7 +127,7 @@ public class Map {
             case 's' -> {
               LayeredTile layeredTile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
-                      new FlameItem(x, y, Sprite.powerUp_speed),
+                      new SpeedItem(x, y, Sprite.powerUp_speed),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
               tiles.add(layeredTile);
             }

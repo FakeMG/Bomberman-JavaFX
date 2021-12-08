@@ -27,32 +27,6 @@ public abstract class Entity {
     this(position.getX(), position.getY(), sprite);
   }
 
-//  public Entity(double x, double y, Animation animation) {
-//    position = new Point2D(x, y);
-//    sprite = animation.getSprites().get(0);
-//    animationController = new AnimationController(animation);
-//    this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
-//            animation.getSprites().get(0).getRealHeight());
-//
-//  }
-//
-//  public Entity(Point2D position, Animation animation) {
-//    this(position.getX(), position.getY(), animation);
-//  }
-//
-//  public Entity(double x, double y, Sprite sprite, Animation animation) {
-//    position = new Point2D(x, y);
-//    this.sprite = sprite;
-//    animationController = new AnimationController(animation);
-//    this.collision = new Rectangle(x, y, animation.getSprites().get(0).getRealWidth(),
-//            animation.getSprites().get(0).getRealHeight());
-//
-//  }
-//
-//  public Entity(Point2D position, Sprite sprite, Animation animation) {
-//    this(position.getX(), position.getY(), sprite, animation);
-//  }
-
   public abstract void update(double deltaTime);
 
   public Point2D getCenter() {

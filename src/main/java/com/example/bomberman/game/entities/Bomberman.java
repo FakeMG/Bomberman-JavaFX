@@ -36,7 +36,6 @@ public class Bomberman extends Entity {
    * Flame
    */
   private int maxFlameSize = DEFAULT_FLAME_SIZE;
-  private int currentFlameSize = maxFlameSize;
 
   /**
    * Bombs
@@ -60,9 +59,11 @@ public class Bomberman extends Entity {
   @Override
   public void update(double deltaTime) {
     try {
-      if (!isDead) {
+      if (!isDying && !isDead) {
         handleInput();
         movementController(deltaTime);
+      } else {
+        xVel = yVel = 0;
       }
       animatorController(deltaTime);
       availableBombs = maxBombs - Map.bombs.size();
@@ -73,11 +74,11 @@ public class Bomberman extends Entity {
   }
 
   private void animatorController(double deltaTime) {
-    if (xVel > 0) {
+    if (xVel > 0 && yVel == 0) {
       isFacingRight = true;
       animator.switchAnimation(Animation.bomberRight);
     }
-    if (xVel < 0) {
+    if (xVel < 0 && yVel == 0) {
       isFacingRight = false;
       animator.switchAnimation(Animation.bomberLeft);
     }
@@ -90,11 +91,11 @@ public class Bomberman extends Entity {
       isFacingDown = false;
       animator.switchAnimation(Animation.bomberUp);
     }
-    if (isDead()) {
+    if (isDying) {
       animator.switchAnimation(Animation.bomberDead);
     }
 
-    if (xVel + yVel == 0 && !isDead) {
+    if (xVel == 0 && yVel == 0 && !isDead && !isDying) {
       animator.setPaused(true);
     }
 
@@ -164,6 +165,10 @@ public class Bomberman extends Entity {
       if (!bomb.letPlayerThrough()) {
         updateCollisionY(deltaTime, bomb);
       }
+    }
+
+    if (xVel == 0 && yVel == 0) {
+      currentSpeed = maxSpeed;
     }
   }
 

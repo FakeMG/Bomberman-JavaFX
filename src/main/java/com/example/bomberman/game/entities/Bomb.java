@@ -41,7 +41,7 @@ public class Bomb extends Entity {
         createFlame();
       }
       animatorController(deltaTime);
-      updateCollision();
+      affectOtherEntities();
     } catch (Exception ex) {
       Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "ANIMATOR IS NULL", ex);
       System.exit(-1);
@@ -63,7 +63,7 @@ public class Bomb extends Entity {
     }
   }
 
-  private void updateCollision() {
+  private void affectOtherEntities() {
     for (Entity player : Map.players) {
       if (!Physic.checkCollision(player.getCollision(), collision)) {
         letPlayerThrough = false;

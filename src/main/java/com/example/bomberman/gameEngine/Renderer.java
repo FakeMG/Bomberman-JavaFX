@@ -42,6 +42,7 @@ public class Renderer {
     renderEntities(Map.bombs);
     renderEntities(Map.flames);
     renderEntities(Map.players);
+    renderEntities(Map.mobs);
     context.restore();
   }
 

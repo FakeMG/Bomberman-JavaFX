@@ -12,6 +12,7 @@ public class Brick extends Tile {
   public Brick(double x, double y, Sprite sprite, Animation animation) {
     super(x, y, sprite, '*');
     animator = new Animator(animation);
+    animator.setPaused(true);
     canBePassedThrough = false;
   }
 

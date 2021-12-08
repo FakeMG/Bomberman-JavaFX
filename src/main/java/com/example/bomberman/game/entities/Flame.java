@@ -30,13 +30,12 @@ public class Flame extends Entity {
   @Override
   public void update(double deltaTime) {
     try {
-
       if (animator.isEnded()) {
         isDead = true;
       }
-
       animatorController(deltaTime);
-      updateCollision();
+      affectOtherEntities();
+
     } catch (NullPointerException ex) {
       Logger.getLogger(Flame.class.getName()).log(Level.SEVERE, "ANIMATOR IS NULL", ex);
       System.exit(-1);
@@ -55,16 +54,16 @@ public class Flame extends Entity {
     return animator.getCurrentFrame();
   }
 
-  private void updateCollision() {
+  private void affectOtherEntities() {
     for (Entity entity : Map.mobs) {
       if (Physic.checkCollision(entity.getCollision(), collision)) {
-        entity.setDead(true);
+        entity.setDying(true);
       }
     }
 
     for (Entity player : Map.players) {
       if (Physic.checkCollision(player.getCollision(), collision)) {
-        player.setDead(true);
+        player.setDying(true);
       }
     }
 

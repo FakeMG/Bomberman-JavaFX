@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 
 public class Animator {
 
-  private Animation currentAnimation;
-  private boolean isPaused = true;
+  public Animation currentAnimation;
+  private boolean isPaused;
   private int frameCounter;
   private double timeCounter;
 
@@ -80,7 +80,12 @@ public class Animator {
   }
 
   public void switchAnimation(Animation animation) {
+    Animation oldAnimation = currentAnimation;
     currentAnimation = animation;
     isPaused = false;
+    if (oldAnimation != animation) {
+      frameCounter = 0;
+      timeCounter = 0;
+    }
   }
 }
