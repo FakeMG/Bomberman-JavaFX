@@ -148,6 +148,54 @@ public class Sprite {
   /* ----------------------------------------------------------- **/
 
   /**
+   * Doll
+   **/
+  /* ----------------------------------------------------------- **/
+  public static ArrayList<Sprite> doll_left = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 13, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 13, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 13, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
+
+  public static ArrayList<Sprite> doll_right = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 14, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 14, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 14, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
+
+  public static ArrayList<Sprite> doll_dead = new ArrayList<>(
+          List.of(new Sprite(DEFAULT_SIZE, 13, 3, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)));
+  /* ----------------------------------------------------------- **/
+
+  /**
+   * Minvo
+   **/
+  /* ----------------------------------------------------------- **/
+  public static ArrayList<Sprite> minvo_left = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 8, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 8, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 8, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
+
+  public static ArrayList<Sprite> minvo_right = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 9, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 9, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 9, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
+
+  public static ArrayList<Sprite> minvo_dead = new ArrayList<>(
+          List.of(new Sprite(DEFAULT_SIZE, 8, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)));
+  /* ----------------------------------------------------------- **/
+
+  /**
    * Dead mobs
    */
   /* ----------------------------------------------------------- **/
@@ -164,28 +212,6 @@ public class Sprite {
    * |-------------------------------------------------------------------------- | GameCharacter
    * |--------------------------------------------------------------------------
    */
-
-  //Dall
-  public static Sprite doll_left1 = new Sprite(DEFAULT_SIZE, 13, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite doll_left2 = new Sprite(DEFAULT_SIZE, 13, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite doll_left3 = new Sprite(DEFAULT_SIZE, 13, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-
-  public static Sprite doll_right1 = new Sprite(DEFAULT_SIZE, 14, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite doll_right2 = new Sprite(DEFAULT_SIZE, 14, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite doll_right3 = new Sprite(DEFAULT_SIZE, 14, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-
-  public static Sprite doll_dead = new Sprite(DEFAULT_SIZE, 13, 3, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-
-  //Minvo
-  public static Sprite minvo_left1 = new Sprite(DEFAULT_SIZE, 8, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite minvo_left2 = new Sprite(DEFAULT_SIZE, 8, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite minvo_left3 = new Sprite(DEFAULT_SIZE, 8, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-
-  public static Sprite minvo_right1 = new Sprite(DEFAULT_SIZE, 9, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite minvo_right2 = new Sprite(DEFAULT_SIZE, 9, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite minvo_right3 = new Sprite(DEFAULT_SIZE, 9, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-
-  public static Sprite minvo_dead = new Sprite(DEFAULT_SIZE, 8, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
   //Kondoria
   public static Sprite kondoria_left1 = new Sprite(DEFAULT_SIZE, 10, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);

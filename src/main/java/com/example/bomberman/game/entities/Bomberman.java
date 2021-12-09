@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Rectangle;
 
 public class Bomberman extends Entity {
 
-  public final double DEFAULT_SPEED = 150;
-  public final int DEFAULT_BOMB_AMOUNT = 1;
+  public final double DEFAULT_SPEED = 400;
+  public final int DEFAULT_BOMB_AMOUNT = 5;
   public final int DEFAULT_HEALTH = 1;
-  public final int DEFAULT_FLAME_SIZE = 1;
+  public final int DEFAULT_FLAME_SIZE = 3;
   public final double SMOOTH_SPEED = 70;
 
   private Animator animator;
@@ -63,12 +64,15 @@ public class Bomberman extends Entity {
       if (!isDying && !isDead) {
         handleInput();
         movementController(deltaTime);
-        soundController();
       } else {
         xVel = yVel = 0;
       }
       animatorController(deltaTime);
       availableBombs = maxBombs - Map.bombs.size();
+
+      if (animator.isEnded()) {
+        Map.reset = true;
+      }
     } catch (Exception ex) {
       Logger.getLogger(Bomberman.class.getName()).log(Level.SEVERE, "CONTROLLER IS NULL!", ex);
       System.exit(-1);
@@ -104,9 +108,6 @@ public class Bomberman extends Entity {
     animator.update(deltaTime);
   }
 
-  private void soundController() {
-  }
-
   private void handleInput() {
     if (Input.isDown(KeyCode.W)) {
       yVel -= currentSpeed;
@@ -126,9 +127,27 @@ public class Bomberman extends Entity {
                 Sprite.DEFAULT_SIZE * Sprite.SCALED);
         int y = (int) (getCenter().getY() / (Sprite.DEFAULT_SIZE * Sprite.SCALED)) * (
                 Sprite.DEFAULT_SIZE * Sprite.SCALED);
-        Map.bombs.add(new Bomb(x, y, Animation.bomb, maxFlameSize));
-        availableBombs--;
-        Sound.playOnce(Sound.bomb_placed);
+
+        Rectangle rectangle = new Rectangle(x, y, Sprite.DEFAULT_SIZE * Sprite.SCALED,
+                Sprite.DEFAULT_SIZE * Sprite.SCALED);
+        if (Map.bombs.size() > 0) {
+          boolean check = false;
+          for (int i = 0; i < Map.bombs.size(); i++) {
+            if (Physic.checkCollision(rectangle, Map.bombs.get(i).getCollision())) {
+              check = true;
+              break;
+            }
+          }
+          if (!check) {
+            Map.bombs.add(new Bomb(x, y, Animation.bomb, maxFlameSize));
+            availableBombs--;
+            Sound.playOnce(Sound.bomb_placed);
+          }
+        } else {
+          Map.bombs.add(new Bomb(x, y, Animation.bomb, maxFlameSize));
+          availableBombs--;
+          Sound.playOnce(Sound.bomb_placed);
+        }
       }
     }
 
@@ -240,5 +259,12 @@ public class Bomberman extends Entity {
 
   public void setMaxBombs(int maxBombs) {
     this.maxBombs = maxBombs;
+  }
+
+  public void reset() {
+    position = new Point2D(Sprite.DEFAULT_SIZE * Sprite.SCALED,
+            Sprite.DEFAULT_SIZE * Sprite.SCALED);
+    isDying = isDead = false;
+    animator.switchAnimation(Animation.bomberDown);
   }
 }

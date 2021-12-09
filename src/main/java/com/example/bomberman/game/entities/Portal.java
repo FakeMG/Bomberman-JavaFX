@@ -24,7 +24,9 @@ public class Portal extends Entity {
   public void affectOtherEntities() {
     for (Entity player : Map.players) {
       if (Physic.checkCollision(player.getCollision(), collision)) {
-        System.out.println("next round");
+        if (Map.mobs.isEmpty()) {
+          Map.next = true;
+        }
       }
     }
   }

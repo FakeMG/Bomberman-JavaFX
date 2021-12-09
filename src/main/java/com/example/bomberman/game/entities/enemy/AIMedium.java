@@ -5,7 +5,6 @@ import com.example.bomberman.game.entities.Bomberman;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
-import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 public class AIMedium extends AI {
@@ -57,7 +56,6 @@ public class AIMedium extends AI {
               y + -i * Sprite.DEFAULT_SIZE * Sprite.SCALED,
               Sprite.DEFAULT_SIZE * Sprite.SCALED,
               Sprite.DEFAULT_SIZE * Sprite.SCALED);
-
 
       if (!stopRight) {
         if (Physic.checkCollision(right, playerCollision)) {

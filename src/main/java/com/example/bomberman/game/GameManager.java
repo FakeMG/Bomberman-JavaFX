@@ -1,13 +1,11 @@
 package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
-import com.example.bomberman.game.entities.Camera;
 import com.example.bomberman.game.entities.Flame;
+import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.AbstractGame;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.GameContainer;
-import com.example.bomberman.game.entities.tile.Tile;
-import com.example.bomberman.gameEngine.Sound;
 
 public class GameManager extends AbstractGame {
 
@@ -15,9 +13,6 @@ public class GameManager extends AbstractGame {
 
   public GameManager() {
     map = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
-    map.readMap();
-    Map.camera = new Camera(0,0,Map.players.get(0));
-    Sound.playLoop(Sound.theme);
   }
 
   @Override
@@ -25,18 +20,18 @@ public class GameManager extends AbstractGame {
     map.update(deltaTime);
 
     //TODO: possible lag
-    for (Entity entity: Map.players) {
+    for (Entity entity : Map.players) {
       entity.update(deltaTime);
     }
     Map.players.removeIf(Entity::isDead);
 
     //TODO: possible lag
-    for (Entity entity: Map.mobs) {
+    for (Entity entity : Map.mobs) {
       entity.update(deltaTime);
     }
     Map.mobs.removeIf(Entity::isDead);
 
-    for (Tile tile: Map.tiles) {
+    for (Tile tile : Map.tiles) {
       tile.update(deltaTime);
     }
 

@@ -4,9 +4,11 @@ import com.example.bomberman.game.entities.Bomb;
 import com.example.bomberman.game.entities.Bomberman;
 import com.example.bomberman.game.entities.Camera;
 import com.example.bomberman.game.entities.Flame;
-import com.example.bomberman.game.entities.enemy.Ballom;
-import com.example.bomberman.game.entities.enemy.Oneal;
 import com.example.bomberman.game.entities.Portal;
+import com.example.bomberman.game.entities.enemy.Ballom;
+import com.example.bomberman.game.entities.enemy.Doll;
+import com.example.bomberman.game.entities.enemy.Minvo;
+import com.example.bomberman.game.entities.enemy.Oneal;
 import com.example.bomberman.game.entities.item.BombItem;
 import com.example.bomberman.game.entities.item.FlameItem;
 import com.example.bomberman.game.entities.item.SpeedItem;
@@ -32,28 +34,52 @@ import java.util.logging.Logger;
 
 public class Map {
 
-  private final String path;
+  private String path;
   private int numOfMaps;
   private int numOfColumns;
   private int numOfRows;
+  private int totalTiles;
   private boolean preValOfEmpty;
-  private final int TOTAL_TILES;
+
+  private final int NUM_OF_MAPS = 4;
+  private int currentMap = 1;
+
+  public static boolean next = false;
+  public static boolean reset = false;
   public static final List<Tile> tiles = new ArrayList<>();
   public static final List<Entity> mobs = new ArrayList<>();
   public static final List<Bomberman> players = new ArrayList<>();
   public static final List<Bomb> bombs = new ArrayList<>();
   public static final List<Flame> flames = new ArrayList<>();
   public static Camera camera = null;
+
   private FileInputStream fileInputStream = null;
   private BufferedReader bufferedReader = null;
 
   public Map(String path) {
+    tiles.clear();
+    mobs.clear();
+    players.clear();
+    bombs.clear();
+    flames.clear();
+
     this.path = path;
     readMapSize();
-    TOTAL_TILES = numOfColumns * numOfRows;
+    totalTiles = numOfColumns * numOfRows;
+
+    readMap();
+    camera = new Camera(0, 0, players.get(0));
+    Sound.playLoop(Sound.theme);
   }
 
   public void update(double deltaTime) {
+    if (reset) {
+      resetMap();
+    }
+    if (next) {
+      nextMap();
+    }
+
     camera.update(deltaTime);
     if (mobs.isEmpty() && !preValOfEmpty) {
       Sound.playOnce(Sound.stage_cleared);
@@ -77,7 +103,7 @@ public class Map {
       //Cần cộng thêm numOfRows * 2 vì cuối mỗi dòng sẽ có 2 kí tự \r và \n
       //Cần - 2 vì kí tự thứ nhất đã đc đọc bên trên
       //Chỉ cần đọc đến kí tự \r ở dòng cuối của map
-      for (int i = 1; i <= TOTAL_TILES + numOfRows * 2 - 2; ++i) {
+      for (int i = 1; i <= totalTiles + numOfRows * 2 - 2; ++i) {
         tileType = (char) data;
 
         //Nếu như đọc đc tileType và thỏa mãn
@@ -102,8 +128,10 @@ public class Map {
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
             }
             case 'p' -> {
-              Bomberman player = new Bomberman(x, y, Animation.bomberDown);
-              players.add(player);
+              if (players.isEmpty()) {
+                Bomberman player = new Bomberman(x, y, Animation.bomberDown);
+                players.add(player);
+              }
               tile = new Tile(x, y, Sprite.grass, ' ');
             }
             case '1' -> {
@@ -114,6 +142,16 @@ public class Map {
             case '2' -> {
               Oneal oneal = new Oneal(x, y, Animation.oneal_right);
               mobs.add(oneal);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+            }
+            case '3' -> {
+              Doll doll = new Doll(x, y, Animation.doll_right);
+              mobs.add(doll);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+            }
+            case '4' -> {
+              Minvo minvo = new Minvo(x, y, Animation.minvo_right);
+              mobs.add(minvo);
               tile = new Tile(x, y, Sprite.grass, ' ');
             }
             case 'b' -> {
@@ -189,6 +227,31 @@ public class Map {
     }
   }
 
+  public void nextMap() {
+    if (currentMap < NUM_OF_MAPS) {
+      currentMap++;
+      resetMap();
+    }
+  }
+
+  public void resetMap() {
+    tiles.clear();
+    mobs.clear();
+    bombs.clear();
+    flames.clear();
+    reset = false;
+    next = false;
+
+    this.path = "src/main/resources/com/example/bomberman/gameEngine/levels/Level" + currentMap
+            + ".txt";
+    readMapSize();
+    totalTiles = numOfColumns * numOfRows;
+
+    readMap();
+    players.get(0).reset();
+    camera = new Camera(0, 0, players.get(0));
+  }
+
   public int getNumOfMaps() {
     return numOfMaps;
   }
@@ -201,7 +264,7 @@ public class Map {
     return numOfRows;
   }
 
-  public int getTOTAL_TILES() {
-    return TOTAL_TILES;
+  public int getTotalTiles() {
+    return totalTiles;
   }
 }

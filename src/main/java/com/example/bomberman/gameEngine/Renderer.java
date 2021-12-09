@@ -3,7 +3,6 @@ package com.example.bomberman.gameEngine;
 import com.example.bomberman.game.Map;
 import com.example.bomberman.game.entities.tile.LayeredTile;
 import java.util.List;
-import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -56,6 +55,10 @@ public class Renderer {
     for (T entity : entities) {
       transformContext(entity);
       Point2D pos = entity.getPosition();
+      Point2D camPos = new Point2D(0, 0);
+      if(Map.camera != null) {
+        camPos = Map.camera.position;
+      }
 
       Image entityTexture = entity.getTexture();
       if (entityTexture != null) {
@@ -63,16 +66,16 @@ public class Renderer {
           Image entityTexture2 = ((LayeredTile) entity).getBottom().getTexture();
           context.drawImage(
                   entityTexture2,
-                  pos.getX() - Map.camera.position.getX(),
-                  pos.getY() - Map.camera.position.getY(),
+                  pos.getX() - camPos.getX(),
+                  pos.getY() - camPos.getY(),
                   entity.getTexture().getWidth(),
                   entity.getTexture().getHeight()
           );
         }
         context.drawImage(
                 entityTexture,
-                pos.getX() - Map.camera.position.getX(),
-                pos.getY() - Map.camera.position.getY(),
+                pos.getX() - camPos.getX(),
+                pos.getY() - camPos.getY(),
                 entity.getTexture().getWidth(),
                 entity.getTexture().getHeight()
         );
