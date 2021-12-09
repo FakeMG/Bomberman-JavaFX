@@ -55,45 +55,46 @@ public class Sprite {
    *-------------------------------------------------------
    */
 
+  public static final double ENTITY_SIZE = 15.5;
   /**
    * Bomber
    **/
   /* ----------------------------------------------------------- **/
   public static ArrayList<Sprite> bomber_up = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.tiles, 12, 15.5)
+                  new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.tiles, 12, ENTITY_SIZE)
           )
   );
   public static ArrayList<Sprite> bomber_down = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 12, 15.5)
+                  new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 12, ENTITY_SIZE)
           )
   );
   public static ArrayList<Sprite> bomber_left = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 12, 15.5)
+                  new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 12, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> bomber_right = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 12, 15.5),
-                  new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 12, 15.5)
+                  new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 12, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 12, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> bomber_dead = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 15.5),
-                  new Sprite(DEFAULT_SIZE, 5, 2, SpriteSheet.tiles, 13, 15),
-                  new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, 15.5)
+                  new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 5, 2, SpriteSheet.tiles, 13, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, ENTITY_SIZE)
           )
   );
   /* ----------------------------------------------------------- **/
@@ -104,22 +105,22 @@ public class Sprite {
   /* ----------------------------------------------------------- **/
   public static ArrayList<Sprite> ballom_left = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 9, 0, SpriteSheet.tiles, 15.5, 15.5),
-                  new Sprite(DEFAULT_SIZE, 9, 1, SpriteSheet.tiles, 15.5, 15.5),
-                  new Sprite(DEFAULT_SIZE, 9, 2, SpriteSheet.tiles, 15.5, 15.5)
+                  new Sprite(DEFAULT_SIZE, 9, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 9, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 9, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> ballom_right = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 10, 0, SpriteSheet.tiles, 15.5, 15.5),
-                  new Sprite(DEFAULT_SIZE, 10, 1, SpriteSheet.tiles, 15.5, 15.5),
-                  new Sprite(DEFAULT_SIZE, 10, 2, SpriteSheet.tiles, 15.5, 15.5)
+                  new Sprite(DEFAULT_SIZE, 10, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 10, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 10, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> balloom_dead = new ArrayList<>(
-          List.of(new Sprite(DEFAULT_SIZE, 9, 3, SpriteSheet.tiles, 16, 16)));
+          List.of(new Sprite(DEFAULT_SIZE, 9, 3, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)));
   /* ----------------------------------------------------------- **/
 
   /**
@@ -128,22 +129,22 @@ public class Sprite {
   /* ----------------------------------------------------------- **/
   public static ArrayList<Sprite> oneal_left = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 11, 0, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 11, 1, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 11, 2, SpriteSheet.tiles, 16, 16)
+                  new Sprite(DEFAULT_SIZE, 11, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 11, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 11, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> oneal_right = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 12, 0, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 12, 1, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 12, 2, SpriteSheet.tiles, 16, 16)
+                  new Sprite(DEFAULT_SIZE, 12, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 12, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 12, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
           )
   );
 
   public static ArrayList<Sprite> oneal_dead = new ArrayList<>(
-          List.of(new Sprite(DEFAULT_SIZE, 11, 3, SpriteSheet.tiles, 16, 16)));
+          List.of(new Sprite(DEFAULT_SIZE, 11, 3, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)));
   /* ----------------------------------------------------------- **/
 
   /**
@@ -152,9 +153,9 @@ public class Sprite {
   /* ----------------------------------------------------------- **/
   public static ArrayList<Sprite> mob_dead = new ArrayList<>(
           Arrays.asList(
-                  new Sprite(DEFAULT_SIZE, 15, 0, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 15, 1, SpriteSheet.tiles, 16, 16),
-                  new Sprite(DEFAULT_SIZE, 15, 2, SpriteSheet.tiles, 16, 16)
+                  new Sprite(DEFAULT_SIZE, 15, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 15, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 15, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
           )
   );
   /* ----------------------------------------------------------- **/
@@ -165,91 +166,92 @@ public class Sprite {
    */
 
   //Dall
-  public static Sprite doll_left1 = new Sprite(DEFAULT_SIZE, 13, 0, SpriteSheet.tiles, 16, 16);
-  public static Sprite doll_left2 = new Sprite(DEFAULT_SIZE, 13, 1, SpriteSheet.tiles, 16, 16);
-  public static Sprite doll_left3 = new Sprite(DEFAULT_SIZE, 13, 2, SpriteSheet.tiles, 16, 16);
+  public static Sprite doll_left1 = new Sprite(DEFAULT_SIZE, 13, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite doll_left2 = new Sprite(DEFAULT_SIZE, 13, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite doll_left3 = new Sprite(DEFAULT_SIZE, 13, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite doll_right1 = new Sprite(DEFAULT_SIZE, 14, 0, SpriteSheet.tiles, 16, 16);
-  public static Sprite doll_right2 = new Sprite(DEFAULT_SIZE, 14, 1, SpriteSheet.tiles, 16, 16);
-  public static Sprite doll_right3 = new Sprite(DEFAULT_SIZE, 14, 2, SpriteSheet.tiles, 16, 16);
+  public static Sprite doll_right1 = new Sprite(DEFAULT_SIZE, 14, 0, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite doll_right2 = new Sprite(DEFAULT_SIZE, 14, 1, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite doll_right3 = new Sprite(DEFAULT_SIZE, 14, 2, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite doll_dead = new Sprite(DEFAULT_SIZE, 13, 3, SpriteSheet.tiles, 16, 16);
+  public static Sprite doll_dead = new Sprite(DEFAULT_SIZE, 13, 3, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
   //Minvo
-  public static Sprite minvo_left1 = new Sprite(DEFAULT_SIZE, 8, 5, SpriteSheet.tiles, 16, 16);
-  public static Sprite minvo_left2 = new Sprite(DEFAULT_SIZE, 8, 6, SpriteSheet.tiles, 16, 16);
-  public static Sprite minvo_left3 = new Sprite(DEFAULT_SIZE, 8, 7, SpriteSheet.tiles, 16, 16);
+  public static Sprite minvo_left1 = new Sprite(DEFAULT_SIZE, 8, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite minvo_left2 = new Sprite(DEFAULT_SIZE, 8, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite minvo_left3 = new Sprite(DEFAULT_SIZE, 8, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite minvo_right1 = new Sprite(DEFAULT_SIZE, 9, 5, SpriteSheet.tiles, 16, 16);
-  public static Sprite minvo_right2 = new Sprite(DEFAULT_SIZE, 9, 6, SpriteSheet.tiles, 16, 16);
-  public static Sprite minvo_right3 = new Sprite(DEFAULT_SIZE, 9, 7, SpriteSheet.tiles, 16, 16);
+  public static Sprite minvo_right1 = new Sprite(DEFAULT_SIZE, 9, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite minvo_right2 = new Sprite(DEFAULT_SIZE, 9, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite minvo_right3 = new Sprite(DEFAULT_SIZE, 9, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite minvo_dead = new Sprite(DEFAULT_SIZE, 8, 8, SpriteSheet.tiles, 16, 16);
+  public static Sprite minvo_dead = new Sprite(DEFAULT_SIZE, 8, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
   //Kondoria
-  public static Sprite kondoria_left1 = new Sprite(DEFAULT_SIZE, 10, 5, SpriteSheet.tiles, 16, 16);
-  public static Sprite kondoria_left2 = new Sprite(DEFAULT_SIZE, 10, 6, SpriteSheet.tiles, 16, 16);
-  public static Sprite kondoria_left3 = new Sprite(DEFAULT_SIZE, 10, 7, SpriteSheet.tiles, 16, 16);
+  public static Sprite kondoria_left1 = new Sprite(DEFAULT_SIZE, 10, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite kondoria_left2 = new Sprite(DEFAULT_SIZE, 10, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite kondoria_left3 = new Sprite(DEFAULT_SIZE, 10, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite kondoria_right1 = new Sprite(DEFAULT_SIZE, 11, 5, SpriteSheet.tiles, 16, 16);
-  public static Sprite kondoria_right2 = new Sprite(DEFAULT_SIZE, 11, 6, SpriteSheet.tiles, 16, 16);
-  public static Sprite kondoria_right3 = new Sprite(DEFAULT_SIZE, 11, 7, SpriteSheet.tiles, 16, 16);
+  public static Sprite kondoria_right1 = new Sprite(DEFAULT_SIZE, 11, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite kondoria_right2 = new Sprite(DEFAULT_SIZE, 11, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static Sprite kondoria_right3 = new Sprite(DEFAULT_SIZE, 11, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
-  public static Sprite kondoria_dead = new Sprite(DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, 16, 16);
+  public static Sprite kondoria_dead = new Sprite(DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
 
   /**
    * |-------------------------------------------------------------------------- | FlameSegment
    * Sprites |--------------------------------------------------------------------------
    */
 
-  public static Sprite explosion_centre0 = new Sprite(DEFAULT_SIZE, 0, 4, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_centre1 = new Sprite(DEFAULT_SIZE, 0, 5, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_centre2 = new Sprite(DEFAULT_SIZE, 0, 6, SpriteSheet.tiles, 15,
-          15);
+  public static final double FLAME_SIZE = 10;
+  public static Sprite explosion_centre0 = new Sprite(DEFAULT_SIZE, 0, 4, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_centre1 = new Sprite(DEFAULT_SIZE, 0, 5, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_centre2 = new Sprite(DEFAULT_SIZE, 0, 6, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
 
-  public static Sprite explosion_vertical0 = new Sprite(DEFAULT_SIZE, 1, 5, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_vertical1 = new Sprite(DEFAULT_SIZE, 2, 5, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_vertical2 = new Sprite(DEFAULT_SIZE, 3, 5, SpriteSheet.tiles, 15,
-          15);
+  public static Sprite explosion_vertical0 = new Sprite(DEFAULT_SIZE, 1, 5, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_vertical1 = new Sprite(DEFAULT_SIZE, 2, 5, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_vertical2 = new Sprite(DEFAULT_SIZE, 3, 5, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
 
-  public static Sprite explosion_horizontal0 = new Sprite(DEFAULT_SIZE, 1, 7, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_horizontal1 = new Sprite(DEFAULT_SIZE, 1, 8, SpriteSheet.tiles, 15,
-          15);
-  public static Sprite explosion_horizontal2 = new Sprite(DEFAULT_SIZE, 1, 9, SpriteSheet.tiles, 15,
-          15);
+  public static Sprite explosion_horizontal0 = new Sprite(DEFAULT_SIZE, 1, 7, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_horizontal1 = new Sprite(DEFAULT_SIZE, 1, 8, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
+  public static Sprite explosion_horizontal2 = new Sprite(DEFAULT_SIZE, 1, 9, SpriteSheet.tiles, FLAME_SIZE,
+          FLAME_SIZE);
 
   public static Sprite explosion_horizontal_left_last0 = new Sprite(DEFAULT_SIZE, 0, 7,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_horizontal_left_last1 = new Sprite(DEFAULT_SIZE, 0, 8,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_horizontal_left_last2 = new Sprite(DEFAULT_SIZE, 0, 9,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
 
   public static Sprite explosion_horizontal_right_last0 = new Sprite(DEFAULT_SIZE, 2, 7,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_horizontal_right_last1 = new Sprite(DEFAULT_SIZE, 2, 8,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_horizontal_right_last2 = new Sprite(DEFAULT_SIZE, 2, 9,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
 
   public static Sprite explosion_vertical_top_last0 = new Sprite(DEFAULT_SIZE, 1, 4,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_vertical_top_last1 = new Sprite(DEFAULT_SIZE, 2, 4,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_vertical_top_last2 = new Sprite(DEFAULT_SIZE, 3, 4,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
 
   public static Sprite explosion_vertical_down_last0 = new Sprite(DEFAULT_SIZE, 1, 6,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_vertical_down_last1 = new Sprite(DEFAULT_SIZE, 2, 6,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
   public static Sprite explosion_vertical_down_last2 = new Sprite(DEFAULT_SIZE, 3, 6,
-          SpriteSheet.tiles, 15, 15);
+          SpriteSheet.tiles, FLAME_SIZE, FLAME_SIZE);
 
   public static ArrayList<Sprite> explosion_centre = new ArrayList<>(
           Arrays.asList(

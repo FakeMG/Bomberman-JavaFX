@@ -11,10 +11,15 @@ import javafx.geometry.Point2D;
 
 public abstract class Enemy extends Entity {
 
-  public final double DEFAULT_SPEED = 60;
-  public final double SMOOTH_SPEED = 70;
-  public final double SHOCK_TIME = 1.5;
-  public final double MAX_DISTANCE = Sprite.DEFAULT_SIZE * Sprite.SCALED * 2;
+  public static final int LEFT = 4;
+  public static final int RIGHT = 6;
+  public static final int UP = 8;
+  public static final int DOWN = 2;
+  public static final double DEFAULT_SPEED = 60;
+  public static final double SMOOTH_SPEED = 70;
+  public static final double SHOCK_TIME = 1.5;
+  public static final double DEFAULT_MAX_DISTANCE =
+          Sprite.DEFAULT_SIZE * Sprite.SCALED * 3; //max distance before changing direction
   protected Animator animator;
   protected AI ai;
 
@@ -24,16 +29,15 @@ public abstract class Enemy extends Entity {
   protected double xVel;
   protected double yVel;
   protected double currentSpeed = DEFAULT_SPEED;
+
+  /**
+   * Direction and Distance
+   */
   protected double distanceCovered;
+  protected double currentMaxDistance = DEFAULT_MAX_DISTANCE;
   protected int direction;
 
   protected double timeCounter;
-  /*
-  8: up
-  2: down
-  4: left
-  6: right
-   */
 
   public Enemy(double x, double y, Sprite sprite) {
     super(x, y, sprite);
@@ -57,7 +61,7 @@ public abstract class Enemy extends Entity {
   protected abstract void affectOtherEntities();
 
   private void updateVelocity(double deltaTime) {
-    if (distanceCovered >= MAX_DISTANCE) {
+    if (distanceCovered >= currentMaxDistance) {
       distanceCovered = 0;
       xVel = yVel = 0;
       direction = ai.calculateDirection();
@@ -111,7 +115,7 @@ public abstract class Enemy extends Entity {
               >= entity.getCenter().getY() + entity.getSprite().getRealWidth() / 2) {
         position = position.add(0, SMOOTH_SPEED * deltaTime);
       } else {
-        distanceCovered = MAX_DISTANCE;
+        distanceCovered = DEFAULT_MAX_DISTANCE;
       }
     }
   }
@@ -130,7 +134,7 @@ public abstract class Enemy extends Entity {
               >= entity.getCenter().getX() + entity.getSprite().getRealHeight() / 2) {
         position = position.add(SMOOTH_SPEED * deltaTime, 0);
       } else {
-        distanceCovered = MAX_DISTANCE;
+        distanceCovered = DEFAULT_MAX_DISTANCE;
       }
     }
   }

@@ -1,7 +1,6 @@
 package com.example.bomberman.gameEngine;
 
 import com.example.bomberman.game.GameManager;
-import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -19,13 +18,13 @@ public class GameContainer extends Application {
    * Bắt buộc phải để public cho constructor ko có tham số
    */
   public GameContainer() {
-    canvas = new Canvas(1280, 720);
+    canvas = new Canvas(768, 768);
     renderer = new Renderer(canvas);
     game = new GameManager();
   }
 
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage) {
     try {
       Group root = new Group();
       Scene theScene = new Scene(root);

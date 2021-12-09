@@ -2,18 +2,19 @@ package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
 import com.example.bomberman.game.entities.Bomberman;
+import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.enemy.Ballom;
+import com.example.bomberman.game.entities.enemy.Oneal;
 import com.example.bomberman.game.entities.enemy.Portal;
 import com.example.bomberman.game.entities.item.BombItem;
 import com.example.bomberman.game.entities.item.FlameItem;
 import com.example.bomberman.game.entities.item.SpeedItem;
 import com.example.bomberman.game.entities.tile.Brick;
-import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.tile.LayeredTile;
+import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Sprite;
-import com.example.bomberman.game.entities.tile.Tile;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,67 +75,59 @@ public class Map {
           switch (tileType) {
             case '#' -> {
               tile = new Tile(x, y, Sprite.wall, tileType);
-              tiles.add(tile);
             }
             case '*' -> {
               //bên dưới brick sẽ là grass
-              LayeredTile layeredTile = new LayeredTile(x, y,
+              tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
-              tiles.add(layeredTile);
             }
             case 'x' -> {
               //poral giấu sau brick và bên trên grass
-              //TODO: create portal
-              LayeredTile layeredTile = new LayeredTile(x, y,
+              tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new Portal(x, y, Sprite.portal),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
-              tiles.add(layeredTile);
             }
             case 'p' -> {
               Bomberman player = new Bomberman(x, y, Animation.bomberDown);
               players.add(player);
               tile = new Tile(x, y, Sprite.grass, ' ');
-              tiles.add(tile);
             }
             case '1' -> {
               Ballom ballom = new Ballom(x, y, Animation.ballom_left);
               mobs.add(ballom);
               tile = new Tile(x, y, Sprite.grass, ' ');
-              tiles.add(tile);
             }
             case '2' -> {
-              //TODO:
-              System.out.println("create oneal " + x + " " + y);
+              Oneal oneal = new Oneal(x, y, Animation.oneal_right);
+              mobs.add(oneal);
               tile = new Tile(x, y, Sprite.grass, ' ');
-              tiles.add(tile);
             }
             case 'b' -> {
-              LayeredTile layeredTile = new LayeredTile(x, y,
+              tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new BombItem(x, y, Sprite.powerUp_bombs),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
-              tiles.add(layeredTile);
             }
             case 'f' -> {
-              LayeredTile layeredTile = new LayeredTile(x, y,
+              tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new FlameItem(x, y, Sprite.powerUp_flames),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
-              tiles.add(layeredTile);
             }
             case 's' -> {
-              LayeredTile layeredTile = new LayeredTile(x, y,
+              tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new SpeedItem(x, y, Sprite.powerUp_speed),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
-              tiles.add(layeredTile);
             }
             case ' ' -> {
               tile = new Tile(x, y, Sprite.grass, ' ');
-              tiles.add(tile);
             }
+          }
+          if (tile != null) {
+            tiles.add(tile);
           }
 
           //Dịch sang x của tile tiếp theo

@@ -6,7 +6,7 @@ import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
-import java.awt.Rectangle;
+import javafx.scene.shape.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
