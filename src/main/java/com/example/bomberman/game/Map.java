@@ -2,10 +2,11 @@ package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
 import com.example.bomberman.game.entities.Bomberman;
+import com.example.bomberman.game.entities.Camera;
 import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.enemy.Ballom;
 import com.example.bomberman.game.entities.enemy.Oneal;
-import com.example.bomberman.game.entities.enemy.Portal;
+import com.example.bomberman.game.entities.Portal;
 import com.example.bomberman.game.entities.item.BombItem;
 import com.example.bomberman.game.entities.item.FlameItem;
 import com.example.bomberman.game.entities.item.SpeedItem;
@@ -14,6 +15,7 @@ import com.example.bomberman.game.entities.tile.LayeredTile;
 import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Entity;
+import com.example.bomberman.gameEngine.Sound;
 import com.example.bomberman.gameEngine.Sprite;
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,12 +36,14 @@ public class Map {
   private int numOfMaps;
   private int numOfColumns;
   private int numOfRows;
+  private boolean preValOfEmpty;
   private final int TOTAL_TILES;
   public static final List<Tile> tiles = new ArrayList<>();
   public static final List<Entity> mobs = new ArrayList<>();
   public static final List<Bomberman> players = new ArrayList<>();
   public static final List<Bomb> bombs = new ArrayList<>();
   public static final List<Flame> flames = new ArrayList<>();
+  public static Camera camera = null;
   private FileInputStream fileInputStream = null;
   private BufferedReader bufferedReader = null;
 
@@ -47,6 +51,14 @@ public class Map {
     this.path = path;
     readMapSize();
     TOTAL_TILES = numOfColumns * numOfRows;
+  }
+
+  public void update(double deltaTime) {
+    camera.update(deltaTime);
+    if (mobs.isEmpty() && !preValOfEmpty) {
+      Sound.playOnce(Sound.stage_cleared);
+    }
+    preValOfEmpty = mobs.isEmpty();
   }
 
   public void readMap() {

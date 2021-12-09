@@ -1,24 +1,29 @@
 package com.example.bomberman.game;
 
 import com.example.bomberman.game.entities.Bomb;
+import com.example.bomberman.game.entities.Camera;
 import com.example.bomberman.game.entities.Flame;
-import com.example.bomberman.game.entities.enemy.Enemy;
 import com.example.bomberman.gameEngine.AbstractGame;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.GameContainer;
 import com.example.bomberman.game.entities.tile.Tile;
+import com.example.bomberman.gameEngine.Sound;
 
 public class GameManager extends AbstractGame {
 
-  private Map map1;
+  private Map map;
 
   public GameManager() {
-    map1 = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
-    map1.readMap();
+    map = new Map("src/main/resources/com/example/bomberman/gameEngine/levels/Level1.txt");
+    map.readMap();
+    Map.camera = new Camera(0,0,Map.players.get(0));
+    Sound.playLoop(Sound.theme);
   }
 
   @Override
   public void update(double deltaTime) {
+    map.update(deltaTime);
+
     //TODO: possible lag
     for (Entity entity: Map.players) {
       entity.update(deltaTime);

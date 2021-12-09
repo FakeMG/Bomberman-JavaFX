@@ -14,16 +14,10 @@ public class Renderer {
 
   Canvas canvas;
   GraphicsContext context;
-  Image background = new Image(
-          Objects.requireNonNull(Renderer.class.getResourceAsStream("space.png")));
 
   public Renderer(Canvas canvas) {
     this.canvas = canvas;
     this.context = canvas.getGraphicsContext2D();
-  }
-
-  public void setBackground(Image background) {
-    this.background = background;
   }
 
   /**
@@ -33,10 +27,6 @@ public class Renderer {
     //TODO: clear, save, restore ?
 
     context.save();
-
-    if (background != null) {
-      context.drawImage(background, 32, 32, background.getWidth(), background.getHeight());
-    }
 
     renderEntities(Map.tiles);
     renderEntities(Map.bombs);
@@ -73,16 +63,16 @@ public class Renderer {
           Image entityTexture2 = ((LayeredTile) entity).getBottom().getTexture();
           context.drawImage(
                   entityTexture2,
-                  pos.getX(),
-                  pos.getY(),
+                  pos.getX() - Map.camera.position.getX(),
+                  pos.getY() - Map.camera.position.getY(),
                   entity.getTexture().getWidth(),
                   entity.getTexture().getHeight()
           );
         }
         context.drawImage(
                 entityTexture,
-                pos.getX(),
-                pos.getY(),
+                pos.getX() - Map.camera.position.getX(),
+                pos.getY() - Map.camera.position.getY(),
                 entity.getTexture().getWidth(),
                 entity.getTexture().getHeight()
         );

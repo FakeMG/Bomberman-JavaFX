@@ -1,4 +1,4 @@
-package com.example.bomberman.game.entities.enemy;
+package com.example.bomberman.game.entities;
 
 import com.example.bomberman.game.Map;
 import com.example.bomberman.gameEngine.Entity;

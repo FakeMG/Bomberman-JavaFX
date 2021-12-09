@@ -1,6 +1,7 @@
 package com.example.bomberman.game.entities.item;
 
 import com.example.bomberman.gameEngine.Entity;
+import com.example.bomberman.gameEngine.Sound;
 import com.example.bomberman.gameEngine.Sprite;
 import javafx.geometry.Point2D;
 

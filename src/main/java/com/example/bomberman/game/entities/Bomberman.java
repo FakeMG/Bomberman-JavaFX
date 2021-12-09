@@ -7,6 +7,7 @@ import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Input;
 import com.example.bomberman.gameEngine.Physic;
+import com.example.bomberman.gameEngine.Sound;
 import com.example.bomberman.gameEngine.Sprite;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,7 @@ public class Bomberman extends Entity {
       if (!isDying && !isDead) {
         handleInput();
         movementController(deltaTime);
+        soundController();
       } else {
         xVel = yVel = 0;
       }
@@ -102,6 +104,9 @@ public class Bomberman extends Entity {
     animator.update(deltaTime);
   }
 
+  private void soundController() {
+  }
+
   private void handleInput() {
     if (Input.isDown(KeyCode.W)) {
       yVel -= currentSpeed;
@@ -123,6 +128,7 @@ public class Bomberman extends Entity {
                 Sprite.DEFAULT_SIZE * Sprite.SCALED);
         Map.bombs.add(new Bomb(x, y, Animation.bomb, maxFlameSize));
         availableBombs--;
+        Sound.playOnce(Sound.bomb_placed);
       }
     }
 

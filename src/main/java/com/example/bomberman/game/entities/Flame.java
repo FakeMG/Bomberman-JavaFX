@@ -8,6 +8,7 @@ import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
+import com.example.bomberman.gameEngine.Sound;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
@@ -63,6 +64,9 @@ public class Flame extends Entity {
 
     for (Entity player : Map.players) {
       if (Physic.checkCollision(player.getCollision(), collision)) {
+        if (!player.isDying()) {
+          Sound.playOnce(Sound.die);
+        }
         player.setDying(true);
       }
     }

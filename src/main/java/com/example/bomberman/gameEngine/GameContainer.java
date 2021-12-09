@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class GameContainer extends Application {
 
+  public static final int WIDTH = 768;
+  public static final int HEIGHT = 768;
   private Renderer renderer;
   private Canvas canvas;
   private AbstractGame game;
@@ -18,7 +20,7 @@ public class GameContainer extends Application {
    * Bắt buộc phải để public cho constructor ko có tham số
    */
   public GameContainer() {
-    canvas = new Canvas(768, 768);
+    canvas = new Canvas(WIDTH, HEIGHT);
     renderer = new Renderer(canvas);
     game = new GameManager();
   }
@@ -28,7 +30,6 @@ public class GameContainer extends Application {
     try {
       Group root = new Group();
       Scene theScene = new Scene(root);
-      Input.pollScene(theScene);
 
       stage.setTitle("Bomberman");
       stage.setScene(theScene);

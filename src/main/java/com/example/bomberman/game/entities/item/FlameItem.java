@@ -3,6 +3,7 @@ package com.example.bomberman.game.entities.item;
 import com.example.bomberman.game.Map;
 import com.example.bomberman.game.entities.Bomberman;
 import com.example.bomberman.gameEngine.Physic;
+import com.example.bomberman.gameEngine.Sound;
 import com.example.bomberman.gameEngine.Sprite;
 import javafx.geometry.Point2D;
 
@@ -21,6 +22,7 @@ public class FlameItem extends Item {
     for (Bomberman player : Map.players) {
       if (Physic.checkCollision(collision, player.getCollision())) {
         player.setMaxFlameSize(player.getMaxFlameSize() + 1);
+        Sound.playOnce(Sound.item_collected);
         isDead = true;
       }
     }

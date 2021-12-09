@@ -5,6 +5,7 @@ import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
+import com.example.bomberman.gameEngine.Sound;
 import com.example.bomberman.gameEngine.Sprite;
 import javafx.scene.shape.Rectangle;
 import java.util.logging.Level;
@@ -39,6 +40,7 @@ public class Bomb extends Entity {
       countDown();
       if (isDead) {
         createFlame();
+        Sound.playOnce(Sound.bomb_exploded);
       }
       animatorController(deltaTime);
       affectOtherEntities();
