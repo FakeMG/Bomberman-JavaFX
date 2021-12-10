@@ -1,6 +1,8 @@
 package com.example.bomberman.game.entities;
 
 import com.example.bomberman.game.Map;
+import com.example.bomberman.game.entities.tile.Brick;
+import com.example.bomberman.game.entities.tile.LayeredTile;
 import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Animator;
@@ -18,10 +20,10 @@ import javafx.scene.shape.Rectangle;
 
 public class Bomberman extends Entity {
 
-  public final double DEFAULT_SPEED = 400;
-  public final int DEFAULT_BOMB_AMOUNT = 5;
+  public final double DEFAULT_SPEED = 150;
+  public final int DEFAULT_BOMB_AMOUNT = 1;
   public final int DEFAULT_HEALTH = 1;
-  public final int DEFAULT_FLAME_SIZE = 3;
+  public final int DEFAULT_FLAME_SIZE = 1;
   public final double SMOOTH_SPEED = 70;
 
   private Animator animator;
@@ -44,6 +46,8 @@ public class Bomberman extends Entity {
    */
   private int maxBombs = DEFAULT_BOMB_AMOUNT;
   private int availableBombs = maxBombs;
+  private boolean bombPass = false;
+  private boolean wallPass = false;
 
   private int currentHealth = DEFAULT_HEALTH;
   private boolean isFacingRight = true;
@@ -174,9 +178,12 @@ public class Bomberman extends Entity {
     for (Tile tile : Map.tiles) {
       updateCollisionX(deltaTime, tile);
     }
-    for (Bomb bomb : Map.bombs) {
-      if (!bomb.letPlayerThrough()) {
-        updateCollisionX(deltaTime, bomb);
+
+    if (!bombPass) {
+      for (Bomb bomb : Map.bombs) {
+        if (!bomb.letPlayerThrough()) {
+          updateCollisionX(deltaTime, bomb);
+        }
       }
     }
 
@@ -186,9 +193,12 @@ public class Bomberman extends Entity {
     for (Tile tile : Map.tiles) {
       updateCollisionY(deltaTime, tile);
     }
-    for (Bomb bomb : Map.bombs) {
-      if (!bomb.letPlayerThrough()) {
-        updateCollisionY(deltaTime, bomb);
+
+    if (!bombPass) {
+      for (Bomb bomb : Map.bombs) {
+        if (!bomb.letPlayerThrough()) {
+          updateCollisionY(deltaTime, bomb);
+        }
       }
     }
 
@@ -199,6 +209,12 @@ public class Bomberman extends Entity {
 
   private void updateCollisionX(double deltaTime, Entity entity) {
     if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
+      if (entity instanceof LayeredTile) {
+        entity = ((LayeredTile) entity).getTop();
+      }
+      if (entity instanceof Brick && wallPass) {
+        return;
+      }
       position = position.add(-xVel * deltaTime, 0);
       collision.setX(position.getX());
 
@@ -216,6 +232,12 @@ public class Bomberman extends Entity {
 
   private void updateCollisionY(double deltaTime, Entity entity) {
     if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
+      if (entity instanceof LayeredTile) {
+        entity = ((LayeredTile) entity).getTop();
+      }
+      if (entity instanceof Brick && wallPass) {
+        return;
+      }
       position = position.add(0, -yVel * deltaTime);
       collision.setY(position.getY());
 
@@ -261,7 +283,18 @@ public class Bomberman extends Entity {
     this.maxBombs = maxBombs;
   }
 
+  public void setBombPass(boolean bombPass) {
+    this.bombPass = bombPass;
+  }
+
+  public void setWallPass(boolean wallPass) {
+    this.wallPass = wallPass;
+  }
+
   public void reset() {
+    if (isDying) {
+      wallPass = bombPass = false;
+    }
     position = new Point2D(Sprite.DEFAULT_SIZE * Sprite.SCALED,
             Sprite.DEFAULT_SIZE * Sprite.SCALED);
     isDying = isDead = false;

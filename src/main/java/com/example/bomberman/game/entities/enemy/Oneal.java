@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 
 public class Oneal extends Enemy {
 
+  public final int ONEAL_VISION = 3;
   public final double ONEAL_SPEED = 90;
   public final double ONEAL_MAX_DISTANCE = Sprite.DEFAULT_SIZE * Sprite.SCALED;
 
@@ -18,7 +19,7 @@ public class Oneal extends Enemy {
     super(x, y, animation.getSprites().get(0));
     animator = new Animator(animation);
 
-    ai = new AIMedium(Map.players.get(0), this);
+    ai = new AIMedium(Map.players.get(0), this, ONEAL_VISION);
     direction = ai.calculateDirection();
     currentMaxDistance = ONEAL_MAX_DISTANCE;
     currentSpeed = ONEAL_SPEED;

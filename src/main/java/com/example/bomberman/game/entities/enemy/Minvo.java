@@ -11,17 +11,18 @@ import javafx.scene.image.Image;
 
 public class Minvo extends Enemy {
 
-  public final double Minvo_SPEED = 120;
-  public final double Minvo_MAX_DISTANCE = Sprite.DEFAULT_SIZE * Sprite.SCALED;
+  public final int MINVO_VISION = 10;
+  public final double MINVO_SPEED = 120;
+  public final double MINVO_MAX_DISTANCE = Sprite.DEFAULT_SIZE * Sprite.SCALED;
 
   public Minvo(double x, double y, Animation animation) {
     super(x, y, animation.getSprites().get(0));
     animator = new Animator(animation);
 
-    ai = new AIMedium(Map.players.get(0), this);
+    ai = new AIMedium(Map.players.get(0), this, MINVO_VISION);
     direction = ai.calculateDirection();
-    currentMaxDistance = Minvo_MAX_DISTANCE;
-    currentSpeed = Minvo_SPEED;
+    currentMaxDistance = MINVO_MAX_DISTANCE;
+    currentSpeed = MINVO_SPEED;
   }
 
   public Minvo(Point2D position, Animation animation) {

@@ -10,8 +10,10 @@ import com.example.bomberman.game.entities.enemy.Doll;
 import com.example.bomberman.game.entities.enemy.Minvo;
 import com.example.bomberman.game.entities.enemy.Oneal;
 import com.example.bomberman.game.entities.item.BombItem;
+import com.example.bomberman.game.entities.item.BombPass;
 import com.example.bomberman.game.entities.item.FlameItem;
 import com.example.bomberman.game.entities.item.SpeedItem;
+import com.example.bomberman.game.entities.item.WallPass;
 import com.example.bomberman.game.entities.tile.Brick;
 import com.example.bomberman.game.entities.tile.LayeredTile;
 import com.example.bomberman.game.entities.tile.Tile;
@@ -74,6 +76,7 @@ public class Map {
 
   public void update(double deltaTime) {
     if (reset) {
+      if (currentMap > 0) currentMap--;
       resetMap();
     }
     if (next) {
@@ -170,6 +173,18 @@ public class Map {
               tile = new LayeredTile(x, y,
                       new Tile(x, y, Sprite.grass, ' '),
                       new SpeedItem(x, y, Sprite.powerUp_speed),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+            }
+            case 'm' -> {
+              tile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new BombPass(x, y, Sprite.powerUp_bomb_pass),
+                      new Brick(x, y, Sprite.brick, Animation.brick_broken));
+            }
+            case 'w' -> {
+              tile = new LayeredTile(x, y,
+                      new Tile(x, y, Sprite.grass, ' '),
+                      new WallPass(x, y, Sprite.powerUp_wall_pass),
                       new Brick(x, y, Sprite.brick, Animation.brick_broken));
             }
             case ' ' -> {

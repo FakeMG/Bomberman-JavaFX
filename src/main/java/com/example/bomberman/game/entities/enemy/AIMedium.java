@@ -12,11 +12,13 @@ public class AIMedium extends AI {
   Bomberman player;
   Enemy enemy;
   AI aiLow;
+  int vision;
 
-  public AIMedium(Bomberman bomber, Enemy e) {
+  public AIMedium(Bomberman bomber, Enemy e, int vision) {
     player = bomber;
     enemy = e;
     aiLow = new AILow();
+    this.vision = vision;
   }
 
   @Override
@@ -30,7 +32,7 @@ public class AIMedium extends AI {
     boolean stopLeft = false;
     boolean stopRight = false;
 
-    for (int i = 1; i <= 5; i++) {
+    for (int i = 1; i <= vision; i++) {
       int x = (int) (enemyX / (Sprite.DEFAULT_SIZE * Sprite.SCALED)) * (
               Sprite.DEFAULT_SIZE * Sprite.SCALED);
       int y = (int) (enemyY / (Sprite.DEFAULT_SIZE * Sprite.SCALED)) * (

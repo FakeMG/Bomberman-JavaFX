@@ -135,8 +135,8 @@ public class Bomb extends Entity {
         } else {
           Map.flames.add(new Flame(up.getX(), up.getY(), Animation.explosion_vertical));
         }
+        stopUp = Map.flames.get(Map.flames.size() - 1).collideWithTile();
       }
-      stopUp = Map.flames.get(Map.flames.size() - 1).collideWithTile();
     }
   }
 
