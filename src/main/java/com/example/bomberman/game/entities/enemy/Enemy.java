@@ -2,7 +2,6 @@ package com.example.bomberman.game.entities.enemy;
 
 import com.example.bomberman.game.Map;
 import com.example.bomberman.game.entities.Bomb;
-import com.example.bomberman.game.entities.tile.Tile;
 import com.example.bomberman.gameEngine.Animator;
 import com.example.bomberman.gameEngine.Entity;
 import com.example.bomberman.gameEngine.Physic;
@@ -41,6 +40,8 @@ public abstract class Enemy extends Entity {
 
   public Enemy(double x, double y, Sprite sprite) {
     super(x, y, sprite);
+    collision.setWidth(collision.getWidth() - 1.5);
+    collision.setHeight(collision.getHeight() - 1.5);
   }
 
   public Enemy(Point2D position, Sprite sprite) {
@@ -58,7 +59,13 @@ public abstract class Enemy extends Entity {
     }
   }
 
-  protected abstract void affectOtherEntities();
+  protected void affectOtherEntities() {
+    for (Entity player : Map.players) {
+      if (Physic.checkCollision(player.getCollision(), collision)) {
+        player.setDying(true);
+      }
+    }
+  }
 
   private void updateVelocity(double deltaTime) {
     if (distanceCovered >= currentMaxDistance) {
@@ -78,24 +85,30 @@ public abstract class Enemy extends Entity {
   }
 
   private void movementController(double deltaTime) {
-    //TODO: possible lag SEVERE
     //Cần phải update tọa độ x y riêng để check collision đc mượt hơn
     //collision X
     position = position.add(xVel * deltaTime, 0);
-    collision.setX(position.getX());
-    for (Tile tile : Map.tiles) {
-      updateCollisionX(deltaTime, tile);
-    }
+    collision.setX(getCenter().getX() - collision.getWidth() / 2);
+
+    Point2D pos = getPosition();
+    int currentPos = Map.convertToTileUnit(pos.getX(), pos.getY());
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + 1));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns()));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns() + 1));
+
     for (Bomb bomb : Map.bombs) {
       updateCollisionX(deltaTime, bomb);
     }
 
     //collision Y
     position = position.add(0, yVel * deltaTime);
-    collision.setY(position.getY());
-    for (Tile tile : Map.tiles) {
-      updateCollisionY(deltaTime, tile);
-    }
+    collision.setY(getCenter().getY() - collision.getHeight() / 2);
+
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + 1));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns()));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns() + 1));
     for (Bomb bomb : Map.bombs) {
       updateCollisionY(deltaTime, bomb);
     }
@@ -104,7 +117,7 @@ public abstract class Enemy extends Entity {
   private void updateCollisionX(double deltaTime, Entity entity) {
     if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
       position = position.add(-xVel * deltaTime, 0);
-      collision.setX(position.getX());
+      collision.setX(getCenter().getX() - collision.getWidth() / 2);
 
       //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
       //Giúp di chuyển mượt hơn
@@ -123,7 +136,7 @@ public abstract class Enemy extends Entity {
   private void updateCollisionY(double deltaTime, Entity entity) {
     if (Physic.checkCollision(collision, entity.getCollision()) && !entity.canBePassedThrough()) {
       position = position.add(0, -yVel * deltaTime);
-      collision.setY(position.getY());
+      collision.setY(getCenter().getY() - collision.getHeight() / 2);
 
       //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
       //Giúp di chuyển mượt hơn

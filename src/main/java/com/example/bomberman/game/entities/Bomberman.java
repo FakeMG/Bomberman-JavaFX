@@ -50,12 +50,11 @@ public class Bomberman extends Entity {
   private boolean wallPass = false;
 
   private int currentHealth = DEFAULT_HEALTH;
-  private boolean isFacingRight = true;
-  private boolean isFacingDown = true;
 
   public Bomberman(double x, double y, Animation animation) {
     super(x, y, animation.getSprites().get(0));
     animator = new Animator(animation);
+    collision.setHeight(collision.getHeight() - 1.5);
   }
 
   public Bomberman(Point2D position, Animation animation) {
@@ -85,20 +84,16 @@ public class Bomberman extends Entity {
 
   private void animatorController(double deltaTime) {
     if (xVel > 0 && yVel == 0) {
-      isFacingRight = true;
       animator.switchAnimation(Animation.bomberRight);
     }
     if (xVel < 0 && yVel == 0) {
-      isFacingRight = false;
       animator.switchAnimation(Animation.bomberLeft);
     }
 
     if (yVel > 0) {
-      isFacingDown = true;
       animator.switchAnimation(Animation.bomberDown);
     }
     if (yVel < 0) {
-      isFacingDown = false;
       animator.switchAnimation(Animation.bomberUp);
     }
     if (isDying) {
@@ -170,14 +165,17 @@ public class Bomberman extends Entity {
   }
 
   private void movementController(double deltaTime) {
-    //TODO: possible lag SEVERE
     //Cần phải update tọa độ x y riêng để check collision đc mượt hơn
     //collision X
     position = position.add(xVel * deltaTime, 0);
-    collision.setX(position.getX());
-    for (Tile tile : Map.tiles) {
-      updateCollisionX(deltaTime, tile);
-    }
+    collision.setX(getCenter().getX() - collision.getWidth() / 2);
+
+    Point2D pos = getPosition();
+    int currentPos = Map.convertToTileUnit(pos.getX(), pos.getY());
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + 1));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns()));
+    updateCollisionX(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns() + 1));
 
     if (!bombPass) {
       for (Bomb bomb : Map.bombs) {
@@ -189,10 +187,12 @@ public class Bomberman extends Entity {
 
     //collision Y
     position = position.add(0, yVel * deltaTime);
-    collision.setY(position.getY());
-    for (Tile tile : Map.tiles) {
-      updateCollisionY(deltaTime, tile);
-    }
+    collision.setY(getCenter().getY() - collision.getHeight() / 2);
+
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + 1));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns()));
+    updateCollisionY(deltaTime, Map.tiles.get(currentPos + Map.getNumOfColumns() + 1));
 
     if (!bombPass) {
       for (Bomb bomb : Map.bombs) {
@@ -216,7 +216,7 @@ public class Bomberman extends Entity {
         return;
       }
       position = position.add(-xVel * deltaTime, 0);
-      collision.setX(position.getX());
+      collision.setX(getCenter().getX() - collision.getWidth() / 2);
 
       //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
       //Giúp di chuyển mượt hơn
@@ -239,7 +239,7 @@ public class Bomberman extends Entity {
         return;
       }
       position = position.add(0, -yVel * deltaTime);
-      collision.setY(position.getY());
+      collision.setY(getCenter().getY() - collision.getHeight() / 2);
 
       //Cái này giúp nhân vật tự di chuyển vào khe trống giữa 2 tile
       //Giúp di chuyển mượt hơn
@@ -294,6 +294,9 @@ public class Bomberman extends Entity {
   public void reset() {
     if (isDying) {
       wallPass = bombPass = false;
+      maxSpeed = DEFAULT_SPEED;
+      maxBombs = DEFAULT_BOMB_AMOUNT;
+      maxFlameSize = DEFAULT_FLAME_SIZE;
     }
     position = new Point2D(Sprite.DEFAULT_SIZE * Sprite.SCALED,
             Sprite.DEFAULT_SIZE * Sprite.SCALED);

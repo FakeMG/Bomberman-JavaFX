@@ -6,4 +6,6 @@ public abstract class AI {
 
   protected Random random = new Random();
   public abstract int calculateDirection();
+  public void update() {
+  }
 }

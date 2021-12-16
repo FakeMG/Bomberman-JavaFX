@@ -52,6 +52,10 @@ public class Animation {
   public static Animation minvo_right = new Animation(Sprite.minvo_right, PLAYER_DELAY, true);
   public static Animation minvo_dead = new Animation(Sprite.minvo_dead, PLAYER_DELAY, true);
 
+  public static Animation kondoria_left = new Animation(Sprite.kondoria_left, PLAYER_DELAY, true);
+  public static Animation kondoria_right = new Animation(Sprite.kondoria_right, PLAYER_DELAY, true);
+  public static Animation kondoria_dead = new Animation(Sprite.kondoria_dead, PLAYER_DELAY, true);
+
   public static Animation mob_dead = new Animation(Sprite.mob_dead, PLAYER_DELAY, false);
 
   private int totalFrames;

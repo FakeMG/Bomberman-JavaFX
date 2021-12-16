@@ -63,35 +63,35 @@ public class AIMedium extends AI {
         if (Physic.checkCollision(right, playerCollision)) {
           return Enemy.RIGHT;
         }
-        stopRight = isStopRight(right);
+        stopRight = isStop(right);
       }
 
       if (!stopLeft) {
         if (Physic.checkCollision(left, playerCollision)) {
           return Enemy.LEFT;
         }
-        stopLeft = isStopRight(left);
+        stopLeft = isStop(left);
       }
 
       if (!stopDown) {
         if (Physic.checkCollision(down, playerCollision)) {
           return Enemy.DOWN;
         }
-        stopDown = isStopRight(down);
+        stopDown = isStop(down);
       }
 
       if (!stopUp) {
         if (Physic.checkCollision(up, playerCollision)) {
           return Enemy.UP;
         }
-        stopUp = isStopRight(up);
+        stopUp = isStop(up);
       }
 
     }
     return aiLow.calculateDirection();
   }
 
-  private boolean isStopRight(Rectangle direction) {
+  private boolean isStop(Rectangle direction) {
     for (Entity tile : Map.tiles) {
       if (Physic.checkCollision(tile.getCollision(), direction)
               && !tile.canBePassedThrough()) {

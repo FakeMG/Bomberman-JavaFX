@@ -26,6 +26,12 @@ public class GameManager extends AbstractGame {
     Map.players.removeIf(Entity::isDead);
 
     //TODO: possible lag
+    for (Flame flame : Map.flames) {
+      flame.update(deltaTime);
+    }
+
+    //TODO: possible lag
+    //mob phụ thuộc vào flame nên phải update sau flame rồi sau đó mới đc xóa flame
     for (Entity entity : Map.mobs) {
       entity.update(deltaTime);
     }
@@ -40,11 +46,6 @@ public class GameManager extends AbstractGame {
       bomb.update(deltaTime);
     }
     Map.bombs.removeIf(Bomb::isDead);
-
-    //TODO: possible lag
-    for (Flame flame : Map.flames) {
-      flame.update(deltaTime);
-    }
     Map.flames.removeIf(Flame::isDead);
   }
 

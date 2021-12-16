@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 public class Minvo extends Enemy {
 
   public final int MINVO_VISION = 10;
-  public final double MINVO_SPEED = 120;
+  public final double MINVO_SPEED = 160;
   public final double MINVO_MAX_DISTANCE = Sprite.DEFAULT_SIZE * Sprite.SCALED;
 
   public Minvo(double x, double y, Animation animation) {
@@ -57,14 +57,6 @@ public class Minvo extends Enemy {
     }
 
     animator.update(deltaTime);
-  }
-
-  protected void affectOtherEntities() {
-    for (Entity player : Map.players) {
-      if (Physic.checkCollision(player.getCollision(), collision)) {
-        player.setDying(true);
-      }
-    }
   }
 
   @Override

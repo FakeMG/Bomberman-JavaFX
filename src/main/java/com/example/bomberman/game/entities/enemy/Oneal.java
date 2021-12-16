@@ -3,8 +3,6 @@ package com.example.bomberman.game.entities.enemy;
 import com.example.bomberman.game.Map;
 import com.example.bomberman.gameEngine.Animation;
 import com.example.bomberman.gameEngine.Animator;
-import com.example.bomberman.gameEngine.Entity;
-import com.example.bomberman.gameEngine.Physic;
 import com.example.bomberman.gameEngine.Sprite;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -57,14 +55,6 @@ public class Oneal extends Enemy {
     }
 
     animator.update(deltaTime);
-  }
-
-  protected void affectOtherEntities() {
-    for (Entity player : Map.players) {
-      if (Physic.checkCollision(player.getCollision(), collision)) {
-        player.setDying(true);
-      }
-    }
   }
 
   @Override

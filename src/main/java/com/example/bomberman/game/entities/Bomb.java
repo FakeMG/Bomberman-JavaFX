@@ -143,4 +143,8 @@ public class Bomb extends Entity {
   public boolean letPlayerThrough() {
     return letPlayerThrough;
   }
+
+  public int getFlameSize() {
+    return flameSize;
+  }
 }

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Flame extends Entity {
 
@@ -22,6 +23,11 @@ public class Flame extends Entity {
     super(x, y, animation.getSprites().get(0));
     animator = new Animator(animation);
     animator.setPaused(false);
+    double width = sprite.getRealWidth() - 35;
+    double height = sprite.getRealHeight() - 35;
+    this.collision = new Rectangle(getCenter().getX() - width / 2,
+            getCenter().getY() - height / 2, width,
+            height);
   }
 
   public Flame(Point2D position, Animation animation) {
@@ -80,26 +86,28 @@ public class Flame extends Entity {
 
   //Dùng trong createFlame của Bomb
   public boolean collideWithTile() {
-    //TODO: possible lag SEVERE
-    for (Entity tile : Map.tiles) {
-      if (Physic.checkCollision(tile.getCollision(), collision)) {
-        //gây tác động đến đối tượng bị collide
-        if (tile instanceof LayeredTile) {
-          tile = ((LayeredTile) tile).getTop();
-        }
+    Point2D pos = getPosition();
+    int currentPos = Map.convertToTileUnit(pos.getX(), pos.getY());
+    Entity tile = Map.tiles.get(currentPos);
 
-        if (!tile.canBePassedThrough()) {
-          if (tile instanceof Brick) {
-            tile.setDying(true);
-          }
-          isDead = true;
-          return true;
+    if (Physic.checkCollision(tile.getCollision(), collision)) {
+      //gây tác động đến đối tượng bị collide
+      if (tile instanceof LayeredTile) {
+        tile = ((LayeredTile) tile).getTop();
+      }
+
+      if (!tile.canBePassedThrough()) {
+        if (tile instanceof Brick) {
+          tile.setDying(true);
         }
-        if (tile instanceof Item) {
-          tile.setDead(true);
-        }
+        isDead = true;
+        return true;
+      }
+      if (tile instanceof Item) {
+        tile.setDead(true);
       }
     }
+
     return false;
   }
 }

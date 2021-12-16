@@ -7,6 +7,7 @@ import com.example.bomberman.game.entities.Flame;
 import com.example.bomberman.game.entities.Portal;
 import com.example.bomberman.game.entities.enemy.Ballom;
 import com.example.bomberman.game.entities.enemy.Doll;
+import com.example.bomberman.game.entities.enemy.Kondoria;
 import com.example.bomberman.game.entities.enemy.Minvo;
 import com.example.bomberman.game.entities.enemy.Oneal;
 import com.example.bomberman.game.entities.item.BombItem;
@@ -38,9 +39,9 @@ public class Map {
 
   private String path;
   private int numOfMaps;
-  private int numOfColumns;
-  private int numOfRows;
-  private int totalTiles;
+  private static int numOfColumns;
+  private static int numOfRows;
+  private static int totalTiles;
   private boolean preValOfEmpty;
 
   private final int NUM_OF_MAPS = 4;
@@ -76,7 +77,7 @@ public class Map {
 
   public void update(double deltaTime) {
     if (reset) {
-      if (currentMap > 0) currentMap--;
+      if (currentMap > 1) currentMap--;
       resetMap();
     }
     if (next) {
@@ -155,6 +156,11 @@ public class Map {
             case '4' -> {
               Minvo minvo = new Minvo(x, y, Animation.minvo_right);
               mobs.add(minvo);
+              tile = new Tile(x, y, Sprite.grass, ' ');
+            }
+            case '5' -> {
+              Kondoria kondoria = new Kondoria(x, y, Animation.kondoria_right);
+              mobs.add(kondoria);
               tile = new Tile(x, y, Sprite.grass, ' ');
             }
             case 'b' -> {
@@ -271,15 +277,21 @@ public class Map {
     return numOfMaps;
   }
 
-  public int getNumOfColumns() {
+  public static int getNumOfColumns() {
     return numOfColumns;
   }
 
-  public int getNumOfRows() {
+  public static int getNumOfRows() {
     return numOfRows;
   }
 
-  public int getTotalTiles() {
+  public static int getTotalTiles() {
     return totalTiles;
+  }
+
+  public static int convertToTileUnit(double x, double y) {
+    int xUnit = (int) (x / (Sprite.DEFAULT_SIZE * Sprite.SCALED));
+    int yUnit = (int) (y / (Sprite.DEFAULT_SIZE * Sprite.SCALED));
+    return yUnit * numOfColumns + xUnit;
   }
 }

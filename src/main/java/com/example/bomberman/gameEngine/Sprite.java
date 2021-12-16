@@ -55,7 +55,7 @@ public class Sprite {
    *-------------------------------------------------------
    */
 
-  public static final double ENTITY_SIZE = 15.5;
+  public static final double ENTITY_SIZE = 16;
   /**
    * Bomber
    **/
@@ -214,22 +214,31 @@ public class Sprite {
    */
 
   //Kondoria
-  public static Sprite kondoria_left1 = new Sprite(DEFAULT_SIZE, 10, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite kondoria_left2 = new Sprite(DEFAULT_SIZE, 10, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite kondoria_left3 = new Sprite(DEFAULT_SIZE, 10, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static ArrayList<Sprite> kondoria_left = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 10, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 10, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 10, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
 
-  public static Sprite kondoria_right1 = new Sprite(DEFAULT_SIZE, 11, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite kondoria_right2 = new Sprite(DEFAULT_SIZE, 11, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
-  public static Sprite kondoria_right3 = new Sprite(DEFAULT_SIZE, 11, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static ArrayList<Sprite> kondoria_right = new ArrayList<>(
+          Arrays.asList(
+                  new Sprite(DEFAULT_SIZE, 11, 5, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 11, 6, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE),
+                  new Sprite(DEFAULT_SIZE, 11, 7, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)
+          )
+  );
 
-  public static Sprite kondoria_dead = new Sprite(DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE);
+  public static ArrayList<Sprite> kondoria_dead = new ArrayList<>(
+          List.of(new Sprite(DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, ENTITY_SIZE, ENTITY_SIZE)));
 
   /**
    * |-------------------------------------------------------------------------- | FlameSegment
    * Sprites |--------------------------------------------------------------------------
    */
 
-  public static final double FLAME_SIZE = 10;
+  public static final double FLAME_SIZE = 16;
   public static Sprite explosion_centre0 = new Sprite(DEFAULT_SIZE, 0, 4, SpriteSheet.tiles, FLAME_SIZE,
           FLAME_SIZE);
   public static Sprite explosion_centre1 = new Sprite(DEFAULT_SIZE, 0, 5, SpriteSheet.tiles, FLAME_SIZE,
